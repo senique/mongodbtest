@@ -1,4 +1,4 @@
-package hibernate.ogm.entity;
+package main.java.hibernate.ogm.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

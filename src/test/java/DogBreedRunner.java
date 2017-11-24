@@ -4,7 +4,7 @@
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later
  * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
  */
-package test;
+package test.java;
 
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -15,8 +15,8 @@ import org.apache.commons.lang.time.StopWatch;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
-import hibernate.ogm.entity.Breed;
-import hibernate.ogm.entity.Dog;
+import main.java.hibernate.ogm.entity.Breed;
+import main.java.hibernate.ogm.entity.Dog;
 
 public class DogBreedRunner {
 
