@@ -1,24 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>mongodbtest</groupId>
-  <artifactId>mongodbtest</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>mname</name>
-  <description>mdesc</description>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  	<dependencies>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mongodbtest</groupId>
+	<artifactId>mongodbtest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mname</name>
+	<description>mdesc</description>
+	<properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>
+	  <plugins>
+	    <plugin>
+	      <artifactId>maven-compiler-plugin</artifactId>
+	      <version>3.3</version>
+	      <configuration>
+	        <source>1.8</source>
+	        <target>1.8</target>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
+  
+	<dependencies>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -44,6 +48,8 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.6.2</version>
 		</dependency>
+		
+		
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -75,67 +81,66 @@
             <scope>test</scope>
         </dependency>
 		
-<!--             <groupId>org.hibernate.ogm</groupId>
-            <artifactId>hibernate-ogm-bom</artifactId>
-            <version>5.2.0.Beta1</version>
-            <type>pom</type>
-            <scope>import</scope>
- -->        
-         <dependency>
-	        <groupId>org.hibernate.ogm</groupId>
-	        <artifactId>hibernate-ogm-mongodb</artifactId>
-            <version>5.2.0.Beta1</version>
- 		</dependency>
-	    <!-- Hibernate OGM Infinispan module; pulls in the OGM core module -->
-	    <dependency>
-	        <groupId>org.hibernate.ogm</groupId>
-	        <artifactId>hibernate-ogm-infinispan</artifactId>
-            <version>5.2.0.Beta1</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>org.hibernate.ogm</groupId>
-	        <artifactId>hibernate-ogm-infinispan-remote</artifactId>
-            <version>5.2.0.Beta1</version>
-	    </dependency>
-	    <!-- Optional, needed to run JPQL queries on some datastores -->
-	    <dependency>
-	        <groupId>org.hibernate</groupId>
-	        <artifactId>hibernate-search-orm</artifactId>
-	        <version>5.6.4.Final</version>
-	    </dependency>
+	<!--  <groupId>org.hibernate.ogm</groupId>
+       <artifactId>hibernate-ogm-bom</artifactId>
+       <version>5.2.0.Beta1</version>
+       <type>pom</type>
+       <scope>import</scope>
+	-->        
+        <dependency>
+        <groupId>org.hibernate.ogm</groupId>
+        <artifactId>hibernate-ogm-mongodb</artifactId>
+           <version>5.2.0.Beta1</version>
+		</dependency>
+    	<!-- Hibernate OGM Infinispan module; pulls in the OGM core module -->
+		<dependency>
+		    <groupId>org.hibernate.ogm</groupId>
+		    <artifactId>hibernate-ogm-infinispan</artifactId>
+		       <version>5.2.0.Beta1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.hibernate.ogm</groupId>
+		    <artifactId>hibernate-ogm-infinispan-remote</artifactId>
+		       <version>5.2.0.Beta1</version>
+		</dependency>
+		<!-- Optional, needed to run JPQL queries on some datastores -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-search-orm</artifactId>
+		    <version>5.6.4.Final</version>
+		</dependency>
 		
-    	<!-- Standard APIs dependencies - provided in a Java EE container -->
-         <dependency>
-             <groupId>org.jboss.spec.javax.transaction</groupId>
-             <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-             <version>1.0.0.Final</version>
-         </dependency>
-         <dependency>
-             <groupId>org.hibernate.javax.persistence</groupId>
-             <artifactId>hibernate-jpa-2.1-api</artifactId>
-             <version>1.0.0.Final</version>
-         </dependency>
-	
-	    <!-- Add the Narayana Transactions Manager
-         an implementation would be provided in a Java EE container,
-         but this works nicely in Java SE as well -->
+		<!-- Standard APIs dependencies - provided in a Java EE container -->
 	    <dependency>
-	        <groupId>org.jboss.narayana.jta</groupId>
-	        <artifactId>narayana-jta</artifactId>
-             <version>5.2.14.Final</version>
+	        <groupId>org.jboss.spec.javax.transaction</groupId>
+	        <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+	        <version>1.0.0.Final</version>
 	    </dependency>
 	    <dependency>
-	        <groupId>org.jboss</groupId>
-	        <artifactId>jboss-transaction-spi</artifactId>
-             <version>7.3.0.Final</version>
+	        <groupId>org.hibernate.javax.persistence</groupId>
+	        <artifactId>hibernate-jpa-2.1-api</artifactId>
+	        <version>1.0.0.Final</version>
 	    </dependency>
-    
-   	</dependencies>
+
+		<!-- Add the Narayana Transactions Manager
+	    an implementation would be provided in a Java EE container,
+	    but this works nicely in Java SE as well -->
+	   <dependency>
+	       <groupId>org.jboss.narayana.jta</groupId>
+	       <artifactId>narayana-jta</artifactId>
+	           <version>5.2.14.Final</version>
+	   </dependency>
+	   <dependency>
+	       <groupId>org.jboss</groupId>
+	       <artifactId>jboss-transaction-spi</artifactId>
+	           <version>7.3.0.Final</version>
+	   </dependency>
+ 	</dependencies>
 	
-    <repositories>
-      <repository>
+	<repositories>
+	  <repository>
 		<id>JBoss repository</id>
 		<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-      </repository>
-    </repositories>
+	  </repository>
+	</repositories>
 </project>

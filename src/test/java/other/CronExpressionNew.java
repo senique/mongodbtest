@@ -1,4 +1,4 @@
-package test.java.other;
+package other;
 
 import java.io.Serializable;
 import java.text.ParseException;

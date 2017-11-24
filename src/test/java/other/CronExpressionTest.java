@@ -3,7 +3,7 @@
  * @createtime ： 2017年10月18日 下午3:44:18
  * @description TODO 一句话描述
  */
-package test.java.other;
+package other;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -27,15 +27,8 @@ import org.junit.Test;
  * L 单词“last”的缩写
  * W 表示为最近工作日
  * # 是用来指定“的”每月第n个工作日
- * 
- * 【Java 8时间和日期API】
- * Instant：瞬时实例。
- * LocalDate：本地日期，不包含具体时间 例如：2014-01-14 可以用来记录生日、纪念日、加盟日等。
- * LocalTime：本地时间，不包含日期。
- * LocalDateTime：组合了日期和时间，但不包含时差和时区信息。
- * ZonedDateTime：最完整的日期时间，包含时区和相对UTC或格林威治的时差。
  */
-public class CronExpressionTest
+public class CronExpressionTest 
 {
     @Test
     public void maintest() throws ParseException
@@ -55,7 +48,6 @@ public class CronExpressionTest
         CronExpressionNew ctime = new CronExpressionNew(time);
 //        CronCalendar cctime = new CronCalendar(time);
         
-//        Date now = DateUtils.getMiPaasNowChinaTime();
         Date now = Date.from(Instant.now());
         System.out.println(now);
         System.out.println(ctime.getNextValidTimeAfter(now));
