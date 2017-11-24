@@ -11,17 +11,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.TransactionManager;
+import org.apache.commons.lang.time.StopWatch;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
+import org.junit.Test;
 import hibernate.ogm.entity.Breed;
 import hibernate.ogm.entity.Dog;
 
 public class DogBreedRunner {
 
-	private static final Log logger = LoggerFactory.make();
+    private final Log logger = LoggerFactory.make();
 
-    public static void main(String[] args) throws NamingException
+    @Test
+    public void simpleTest() throws NamingException
     {
+        StopWatch sw = new StopWatch();
+        sw.start();
+        
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
 		//build the EntityManagerFactory as you would build in in Hibernate Core
@@ -61,6 +67,9 @@ public class DogBreedRunner {
 		catch ( Exception e ) {
 			e.printStackTrace();
 		}
+        
+        sw.stop();
+        System.out.println("org.apache.commons.lang.time.StopWatch: " + sw.getTime());
 
 	}
 
