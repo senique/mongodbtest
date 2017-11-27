@@ -7,7 +7,6 @@
     <persistence-unit name="ogm-jpa-tutorial" transaction-type="JTA">
         <!-- Use the Hibernate OGM provider: configuration will be transparent -->
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-        <jta-data-source>java:/DefaultDS</jta-data-source>
         <properties>
             <!-- Here you will pick which NoSQL technology to use, and configure it;
                  in this example we start a local in-memory Infinispan node.

@@ -4,14 +4,18 @@
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later
  * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
  */
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.transaction.TransactionManager;
 import org.apache.commons.lang.time.StopWatch;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
+import com.mongodb.BasicDBObject;
 import hibernate.ogm.entity.Breed;
 import hibernate.ogm.entity.Dog;
 
@@ -27,11 +31,18 @@ public class DogBreedRunner
         StopWatch sw = new StopWatch();
         sw.start();
         
-        javax.transaction.TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+        TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
 		//build the EntityManagerFactory as you would build in in Hibernate Core
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory( "ogm-jpa-tutorial" );
-
+//        EntityManager entityManager = emf.createEntityManager();
+//        EntityTransaction entityTransaction = entityManager.createNamedStoredProcedureQuery(name);
+        String ist = DateTimeFormatter.BASIC_ISO_DATE.format(Instant.now());
+        BasicDBObject bsObj = new BasicDBObject();
+        bsObj.put("create_time", Instant.now());
+        bsObj.put("period_date", ist);
+        
+		
 		//Persist entities the way you are used to in plain JPA
 		try {
             tm.begin();
@@ -39,6 +50,7 @@ public class DogBreedRunner
 			EntityManager em = emf.createEntityManager();
 			Breed collie = new Breed();
 			collie.setName( "Collie" );
+//            collie.setRemark(bsObj.toJson());
 			em.persist( collie );
 			Dog dina = new Dog();
 			dina.setName( "Dina" );
