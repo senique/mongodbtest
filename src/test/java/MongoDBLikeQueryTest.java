@@ -14,6 +14,10 @@ import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.junit.Test;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
 import hibernate.ogm.entity.ReportRecord;
 
 public class MongoDBLikeQueryTest 
@@ -43,9 +47,9 @@ public class MongoDBLikeQueryTest
     }
 //    @Override
     /** refer to org.hibernate.ogm.test.boot.StandAloneOgmTest*/
-    public static OgmSessionFactory getSessionFactory() {
+    public static OgmSessionFactory getSessionFactory(Class cls) {
         return new MetadataSources( getServiceRegistry() )
-                .addAnnotatedClass( ReportRecord.class )//
+                .addAnnotatedClass( cls )//
             .buildMetadata()
             .getSessionFactoryBuilder()
             .unwrap( OgmSessionFactoryBuilder.class )
@@ -53,35 +57,12 @@ public class MongoDBLikeQueryTest
     }
     
     @Test
-    public void test()
+    public void reportRecordTest()
     {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .applySetting( OgmProperties.ENABLED, true )
-                .applySetting( AvailableSettings.TRANSACTION_COORDINATOR_STRATEGY, "jta" )
-                .applySetting(OgmProperties.DATASTORE_PROVIDER, MongoDBDatastoreProvider.class)
-                .build();
-
-            OgmSessionFactory osf = new MetadataSources( registry )
-                    .addAnnotatedClass( ReportRecord.class )//
-                .buildMetadata()
-                .getSessionFactoryBuilder()
-                .unwrap( OgmSessionFactoryBuilder.class )
-                .build();
-        
-        
-            sessionFactory = getSessionFactory();
-//            sessionFactory = osf;
+        sessionFactory = getSessionFactory(ReportRecord.class);
         OgmSession osn = sessionFactory.openSession();
         Transaction transaction = osn.getTransaction();
         transaction.begin();
-        
-//        Breed collie = new Breed();
-//        collie.setName("Collieosn");
-//        osn.persist(collie);
-//        Dog dina = new Dog();
-//        dina.setName("Dinaosn");
-//        dina.setBreed(collie);
-//        osn.persist(dina);
         
         Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
 //        Date now = DateUtils.getMiPaasNowChinaTime();
@@ -97,6 +78,67 @@ public class MongoDBLikeQueryTest
         transaction.commit();
         osn.clear();
         osn.close();
+    }
+    
+    @Test
+    public void reportRecordTestOther()
+    {
+        sessionFactory = getSessionFactory(BasicDBObject.class);
+        OgmSession osn = sessionFactory.openSession();
+        Transaction transaction = osn.getTransaction();
+        transaction.begin();
+        
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+//        Date now = DateUtils.getMiPaasNowChinaTime();
+        
+//        ReportRecord rpt = new ReportRecord();
+//        rpt.setTempleteId(1L);
+//        rpt.setCreatedTime(now);
+//        rpt.setPeriodDate(now);
+//        rpt.setFromBusitype(6);
+//        rpt.setFromObjId(181L);
+//        rpt.setStatus((byte) 1);
+//        osn.persist(rpt);
+        
+//        DBCollection collection =  ;
+        BasicDBObject bsObj = new BasicDBObject();
+        BasicDBObject rpt = new BasicDBObject("id", 1)
+                .append("templeteId", 1)
+                .append("createdTime", now)
+                .append("periodDate", now)
+                .append("fromBusitype", 6)
+                .append("fromObjId", 181)
+                .append("status", 1);
+        bsObj.put("ReportRecord", rpt);
+        osn.persist(bsObj);
+        /** org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
+
+        transaction.commit();
+        osn.clear();
+        osn.close();
+    }
+    
+    @Test
+    public void reportRecordTestMongoDriver()
+    {
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        Mongo mongo = new Mongo("10.0.75.1", 27017);
+        DB db = mongo.getDB("testdb");
+        DBCollection collection = db.getCollection("ReportRecordByMongoDriver");
+        
+        BasicDBObject bsObj = new BasicDBObject();
+        BasicDBObject rpt = new BasicDBObject("id", 1)
+                .append("templeteId", 1)
+                .append("createdTime", now)
+                .append("periodDate", now)
+                .append("fromBusitype", 6)
+                .append("fromObjId", 181)
+                .append("status", 1);
+        bsObj.put("ReportRecord", rpt);
+        
+        collection.insert(rpt);
+        
+        mongo.close();
         
     }
 
