@@ -36,15 +36,4 @@ public class Breed
     
     private String name;
     
-    public String getRemark()
-    {
-        return remark;
-    }
-
-    public void setRemark(String remark)
-    {
-        this.remark = remark;
-    }
-    private String remark;
-
 }

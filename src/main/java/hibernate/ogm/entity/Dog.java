@@ -54,4 +54,15 @@ public class Dog
     }
     
     private Breed breed;
+    
+    public String getRemark()
+    {
+        return remark;
+    }
+
+    public void setRemark(String remark)
+    {
+        this.remark = remark;
+    }
+    private String remark;
 }

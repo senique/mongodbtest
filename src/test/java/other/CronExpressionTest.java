@@ -12,14 +12,14 @@ import org.junit.Test;
 
 /**
  * 秒分时 天月周 年
- * N Field Name Mandatory Allowed Values Allowed Special Characters
- * 1 Seconds YES 0-59 , - * /
- * 2 Minutes YES 0-59 , - * /
- * 3 Hours YES 0-23 , - * /
- * 4 Day of month YES 1-31 , - * ? / L W
- * 5 Month YES 1-12 or JAN-DEC , - * /
- * 6 Day of week YES 1-7 or SUN-SAT , - * ? / L #
- * _ Year NO empty, 1970-2099 , - * /
+ *N  Field Name    Mandatory    Allowed Values       Allowed Special Characters
+ *1  Seconds       YES          0-59                 , - * /
+ *2  Minutes       YES          0-59                 , - * /
+ *3  Hours         YES          0-23                 , - * /
+ *4  Day of month  YES          1-31                 , - * ? / L W
+ *5  Month         YES          1-12 or JAN-DEC      , - * /
+ *6  Day of week   YES          1-7 or SUN-SAT       , - * ? / L #
+ *_  Year          NO           empty, 1970-2099     , - * /
  *
  * * 字符代表所有可能的值
  * / 字符用来指定数值的增量

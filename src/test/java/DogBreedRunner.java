@@ -5,19 +5,28 @@
  * See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
  */
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.TransactionManager;
 import org.apache.commons.lang.time.StopWatch;
+import org.hibernate.ogm.cfg.OgmProperties;
+import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
 import com.mongodb.BasicDBObject;
 import hibernate.ogm.entity.Breed;
 import hibernate.ogm.entity.Dog;
+import util.DateUtils;
 
 public class DogBreedRunner
 {
@@ -26,22 +35,53 @@ public class DogBreedRunner
     private final Log logger = LoggerFactory.make();
 
     @Test
-    public void simpleTest() throws NamingException
+   public void timeTest(){
+       logger.debug(LocalDateTime.now());
+       logger.debug(DateTimeFormatter.BASIC_ISO_DATE.format(LocalDateTime.now()));
+       logger.debug(Instant.now());
+       logger.debug(LocalDate.now());
+       logger.debug(DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()));
+       
+       LocalDateTime now = LocalDateTime.now();
+//       String ist = DateTimeFormatter.BASIC_ISO_DATE.format(now);
+       String ist = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss").format(now);
+       BasicDBObject bsObj = new BasicDBObject();
+       ZoneOffset se =ZoneOffset.ofHours(8);
+       bsObj.put("create_time", Date.from(now.toInstant(se)));
+       bsObj.put("period_date", ist);
+       logger.debug(Date.from(now.toInstant(se)));
+       logger.debug(bsObj.toJson());
+       logger.infof(DateUtils.getMiPaasNowChinaTime().toString());
+   }
+    
+   @Test
+   public void simpleTest() throws NamingException
     {
         StopWatch sw = new StopWatch();
         sw.start();
         
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
+        
+        Map<String, Object> properties = new HashMap<String, Object>();
+        // pass the type
+        properties.put( OgmProperties.DATASTORE_PROVIDER, MongoDBDatastoreProvider.class );
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory( "ogm-jpa-tutorial", properties );
+        
 		//build the EntityManagerFactory as you would build in in Hibernate Core
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory( "ogm-jpa-tutorial" );
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory( "ogm-jpa-tutorial" );
 //        EntityManager entityManager = emf.createEntityManager();
 //        EntityTransaction entityTransaction = entityManager.createNamedStoredProcedureQuery(name);
-        String ist = DateTimeFormatter.BASIC_ISO_DATE.format(Instant.now());
+		
+		
+		
+		LocalDateTime now = LocalDateTime.now();
+//        String ist = DateTimeFormatter.BASIC_ISO_DATE.format(now);
+        String ist = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss").format(now);
         BasicDBObject bsObj = new BasicDBObject();
-        bsObj.put("create_time", Instant.now());
+        ZoneOffset se =ZoneOffset.ofHours(8);
+        bsObj.put("create_time", Date.from(now.toInstant(se)));
         bsObj.put("period_date", ist);
-        
 		
 		//Persist entities the way you are used to in plain JPA
 		try {
@@ -50,11 +90,11 @@ public class DogBreedRunner
 			EntityManager em = emf.createEntityManager();
 			Breed collie = new Breed();
 			collie.setName( "Collie" );
-//            collie.setRemark(bsObj.toJson());
 			em.persist( collie );
 			Dog dina = new Dog();
 			dina.setName( "Dina" );
 			dina.setBreed( collie );
+			dina.setRemark(bsObj.toJson());
 			em.persist( dina );
 			Long dinaId = dina.getId();
             em.flush();
@@ -80,7 +120,7 @@ public class DogBreedRunner
 		}
         
         sw.stop();
-        System.out.println("org.apache.commons.lang.time.StopWatch: " + sw.getTime());
+        logger.infof("org.apache.commons.lang.time.StopWatch: " + sw.getTime());
 
 	}
 
