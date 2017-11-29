@@ -33,15 +33,27 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+		
+        <!-- Mongo API Note: This class has been superseded by MongoClient, and may be deprecated in a future release. -->
+        <!-- MongoClient: http://api.mongodb.com/java/current/com/mongodb/MongoClient.html -->
 	    <dependency>
 	        <groupId>org.mongodb</groupId>
 	        <artifactId>mongodb-driver</artifactId>
 	        <version>3.4.1</version>
 	    </dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.4</version>
+        <!-- MongoTemplate: https://docs.spring.io/spring-data/mongodb/docs/current/api/org/springframework/data/mongodb/core/MongoTemplate.html-->
+        <!-- Categories: MongoDB Clients [http://mvnrepository.com/open-source/mongodb-clients]-->
+        <!-- Projects: http://projects.spring.io/spring-data/
+                       http://projects.spring.io/spring-data-mongodb/-->
+	    <dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-mongodb</artifactId>
+		    <version>2.0.2.RELEASE</version>
 		</dependency>
 		
         <!-- Logging -->

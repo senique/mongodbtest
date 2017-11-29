@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import org.bson.Document;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,13 +15,19 @@ import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.junit.Test;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import hibernate.ogm.entity.ReportRecord;
+import hibernate.ogm.entity.ReportRecordNewId;
 
-public class MongoDBLikeQueryTest 
+public class MongoDBFullFeaturedTest 
 {
 //    @TestSessionFactory
     private static SessionFactory sessions;
@@ -57,7 +64,14 @@ public class MongoDBLikeQueryTest
     }
     
     @Test
-    public void reportRecordTest()
+    public void otherTest()
+    {
+
+    }
+    
+    
+    @Test
+    public void mongoByHibernateOgmTest()
     {
         sessionFactory = getSessionFactory(ReportRecord.class);
         OgmSession osn = sessionFactory.openSession();
@@ -81,7 +95,7 @@ public class MongoDBLikeQueryTest
     }
     
     @Test
-    public void reportRecordTestOther()
+    public void mongoByHibernateOgmOtherTest()
     {
         sessionFactory = getSessionFactory(BasicDBObject.class);
         OgmSession osn = sessionFactory.openSession();
@@ -111,22 +125,87 @@ public class MongoDBLikeQueryTest
                 .append("status", 1);
         bsObj.put("ReportRecord", rpt);
         osn.persist(bsObj);
-        /** org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
+        /**TODO org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
 
         transaction.commit();
         osn.clear();
         osn.close();
     }
+
     
     @Test
-    public void reportRecordTestMongoDriver()
+    public void mongoByMongoMongoTemplateTest()
     {
+//        MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
+        MongoTemplate mongoTemplate = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
+
         Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        
+//        /** org.springframework.data.mapping.MappingException: 
+//         * Couldn't find PersistentEntity for type class com.mongodb.BasicDBObject!*/
+//        BasicDBObject rpt = new BasicDBObject("id", 1)
+//                .append("templeteId", 1)
+//                .append("createdTime", now)
+//                .append("periodDate", now)
+//                .append("fromBusitype", 6)
+//                .append("fromObjId", 181)
+//                .append("status", 1);
+       
+      //TODO can't auto generate id? and store
+      ReportRecordNewId rpt = new ReportRecordNewId();
+//      rpt.setName("abc");
+      rpt.setTempleteId(1L);
+      rpt.setCreatedTime(now);
+      rpt.setPeriodDate(now);
+      rpt.setFromBusitype(6);
+      rpt.setFromObjId(181L);
+      rpt.setStatus((byte) 1);
+      
+//      ReportRecord3 rpt = new ReportRecord3();
+////    rpt.setName("abc");
+//    rpt.setTempleteId(1L);
+//    rpt.setCreatedTime(now);
+//    rpt.setPeriodDate(now);
+//    rpt.setFromBusitype(6);
+//    rpt.setFromObjId(181L);
+//    rpt.setStatus((byte) 1);
+//        
+        mongoTemplate.insert(rpt);
+    }
+    
+    @Test
+    public void mongoByMongoClientTest()
+    {
+        MongoClient mongoClient = new MongoClient("10.0.75.1", 27017);  
+        MongoDatabase db = mongoClient.getDatabase("testdb");//获取DB  
+        MongoCollection<Document> collection = db.getCollection("ReportRecordByMongoClient");//获取collection（表） 
+        
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        Document rpt = new Document("id", 1)
+                .append("templeteId", 1)
+                .append("createdTime", now)
+                .append("periodDate", now)
+                .append("fromBusitype", 6)
+                .append("fromObjId", 181)
+                .append("status", 1);
+        
+//        Document document = new Document();
+//        collection.insertOne(document );
+        
+        collection.insertOne(rpt);
+        
+        mongoClient.close();
+    }
+    
+    @Test
+    @Deprecated
+    public void mongoByMongoApiTest()
+    {
         Mongo mongo = new Mongo("10.0.75.1", 27017);
         DB db = mongo.getDB("testdb");
-        DBCollection collection = db.getCollection("ReportRecordByMongoDriver");
+        DBCollection collection = db.getCollection("ReportRecordByMongoApi");
         
-        BasicDBObject bsObj = new BasicDBObject();
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
         BasicDBObject rpt = new BasicDBObject("id", 1)
                 .append("templeteId", 1)
                 .append("createdTime", now)
@@ -134,12 +213,9 @@ public class MongoDBLikeQueryTest
                 .append("fromBusitype", 6)
                 .append("fromObjId", 181)
                 .append("status", 1);
-        bsObj.put("ReportRecord", rpt);
         
         collection.insert(rpt);
         
         mongo.close();
-        
     }
-
 }
