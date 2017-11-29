@@ -1,4 +1,4 @@
-package hibernate.ogm.entity;
+package domain;
 
 import java.util.Date;
 import javax.persistence.Entity;

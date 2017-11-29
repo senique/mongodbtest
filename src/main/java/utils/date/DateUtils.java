@@ -1,4 +1,4 @@
-package util;
+package utils.date;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

@@ -24,15 +24,15 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import hibernate.ogm.entity.ReportRecord;
-import hibernate.ogm.entity.ReportRecordNewId;
+import domain.ReportRecord;
+import domain.ReportRecordNewId;
 
 public class MongoDBFullFeaturedTest 
 {
 //    @TestSessionFactory
-    private static SessionFactory sessions;
+    private SessionFactory sessions;
     
-    protected OgmSessionFactory sessionFactory;
+    protected OgmSessionFactory ogmSessionFactory;
     
     private Session session;
     
@@ -54,7 +54,7 @@ public class MongoDBFullFeaturedTest
     }
 //    @Override
     /** refer to org.hibernate.ogm.test.boot.StandAloneOgmTest*/
-    public static OgmSessionFactory getSessionFactory(Class cls) {
+    public static OgmSessionFactory getOgmSessionFactory(Class cls) {
         return new MetadataSources( getServiceRegistry() )
                 .addAnnotatedClass( cls )//
             .buildMetadata()
@@ -73,8 +73,8 @@ public class MongoDBFullFeaturedTest
     @Test
     public void mongoByHibernateOgmTest()
     {
-        sessionFactory = getSessionFactory(ReportRecord.class);
-        OgmSession osn = sessionFactory.openSession();
+        ogmSessionFactory = getOgmSessionFactory(ReportRecord.class);
+        OgmSession osn = ogmSessionFactory.openSession();
         Transaction transaction = osn.getTransaction();
         transaction.begin();
         
@@ -97,8 +97,8 @@ public class MongoDBFullFeaturedTest
     @Test
     public void mongoByHibernateOgmOtherTest()
     {
-        sessionFactory = getSessionFactory(BasicDBObject.class);
-        OgmSession osn = sessionFactory.openSession();
+        ogmSessionFactory = getOgmSessionFactory(BasicDBObject.class);
+        OgmSession osn = ogmSessionFactory.openSession();
         Transaction transaction = osn.getTransaction();
         transaction.begin();
         
@@ -134,7 +134,7 @@ public class MongoDBFullFeaturedTest
 
     
     @Test
-    public void mongoByMongoMongoTemplateTest()
+    public void mongoByMongoTemplateTest()
     {
 //        MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
         MongoTemplate mongoTemplate = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));

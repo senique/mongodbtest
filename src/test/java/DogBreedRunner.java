@@ -24,9 +24,9 @@ import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
 import com.mongodb.BasicDBObject;
-import hibernate.ogm.entity.Breed;
-import hibernate.ogm.entity.Dog;
-import util.DateUtils;
+import domain.Breed;
+import domain.Dog;
+import utils.date.DateUtils;
 
 public class DogBreedRunner
 {

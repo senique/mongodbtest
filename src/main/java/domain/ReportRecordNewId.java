@@ -1,4 +1,4 @@
-package hibernate.ogm.entity;
+package domain;
 
 import java.math.BigInteger;
 import java.util.Date;
