@@ -1,6 +1,12 @@
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.transaction.TransactionManager;
 import org.bson.Document;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -71,6 +77,47 @@ public class MongoDBFullFeaturedTest
     
     
     @Test
+    public void mongoByHibernateJpaTest()
+    {
+        TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+        
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put( OgmProperties.DATASTORE_PROVIDER, MongoDBDatastoreProvider.class );
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory( "ogm-jpa-tutorial", properties );
+        
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        /** java.lang.IllegalArgumentException: Unknown entity: com.mongodb.BasicDBObject*/
+//        BasicDBObject bsObj = new BasicDBObject();
+//        BasicDBObject rpt = new BasicDBObject("id", 1).append("templeteId", 1).append("createdTime", now).append("periodDate", now)
+//                .append("fromBusitype", 6).append("fromObjId", 181).append("status", 1);
+//        bsObj.put("ReportRecord", rpt);
+        
+        ReportRecord rpt = new ReportRecord();
+        rpt.setTempleteId(1L);
+        rpt.setCreatedTime(now);
+        rpt.setPeriodDate(now);
+        rpt.setFromBusitype(6);
+        rpt.setFromObjId(181L);
+        rpt.setStatus((byte) 1);
+        
+        //Persist entities the way you are used to in plain JPA
+        try {
+            tm.begin();
+//            logger.infof("About to store dog and breed");
+            EntityManager em = emf.createEntityManager();
+            em.persist(rpt);
+            em.flush();
+            em.close();
+            tm.commit();
+
+            emf.close();
+        }
+        catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }    
+    
+    @Test
     public void mongoByHibernateOgmTest()
     {
         ogmSessionFactory = getOgmSessionFactory(ReportRecord.class);
@@ -80,6 +127,13 @@ public class MongoDBFullFeaturedTest
         
         Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
 //        Date now = DateUtils.getMiPaasNowChinaTime();
+        
+        /**TODO org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
+//      BasicDBObject bsObj = new BasicDBObject();
+//      BasicDBObject rpt = new BasicDBObject("id", 1).append("templeteId", 1).append("createdTime", now).append("periodDate", now)
+//              .append("fromBusitype", 6).append("fromObjId", 181).append("status", 1);
+//      bsObj.put("ReportRecord", rpt);
+        
         ReportRecord rpt = new ReportRecord();
         rpt.setTempleteId(1L);
         rpt.setCreatedTime(now);
@@ -93,45 +147,6 @@ public class MongoDBFullFeaturedTest
         osn.clear();
         osn.close();
     }
-    
-    @Test
-    public void mongoByHibernateOgmOtherTest()
-    {
-        ogmSessionFactory = getOgmSessionFactory(BasicDBObject.class);
-        OgmSession osn = ogmSessionFactory.openSession();
-        Transaction transaction = osn.getTransaction();
-        transaction.begin();
-        
-        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        Date now = DateUtils.getMiPaasNowChinaTime();
-        
-//        ReportRecord rpt = new ReportRecord();
-//        rpt.setTempleteId(1L);
-//        rpt.setCreatedTime(now);
-//        rpt.setPeriodDate(now);
-//        rpt.setFromBusitype(6);
-//        rpt.setFromObjId(181L);
-//        rpt.setStatus((byte) 1);
-//        osn.persist(rpt);
-        
-//        DBCollection collection =  ;
-        BasicDBObject bsObj = new BasicDBObject();
-        BasicDBObject rpt = new BasicDBObject("id", 1)
-                .append("templeteId", 1)
-                .append("createdTime", now)
-                .append("periodDate", now)
-                .append("fromBusitype", 6)
-                .append("fromObjId", 181)
-                .append("status", 1);
-        bsObj.put("ReportRecord", rpt);
-        osn.persist(bsObj);
-        /**TODO org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
-
-        transaction.commit();
-        osn.clear();
-        osn.close();
-    }
-
     
     @Test
     public void mongoByMongoTemplateTest()
