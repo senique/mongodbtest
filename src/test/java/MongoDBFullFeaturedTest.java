@@ -23,6 +23,8 @@ import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import com.mng.domain.ReportRecord;
+import com.mng.domain.ReportRecordNewId;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -30,8 +32,6 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import domain.ReportRecord;
-import domain.ReportRecordNewId;
 
 public class MongoDBFullFeaturedTest 
 {
@@ -93,7 +93,7 @@ public class MongoDBFullFeaturedTest
 //        bsObj.put("ReportRecord", rpt);
         
         ReportRecord rpt = new ReportRecord();
-        rpt.setTempleteId(1L);
+        rpt.setTempleteId(11L);
         rpt.setCreatedTime(now);
         rpt.setPeriodDate(now);
         rpt.setFromBusitype(6);
@@ -102,8 +102,9 @@ public class MongoDBFullFeaturedTest
         
         //Persist entities the way you are used to in plain JPA
         try {
+          /**note that you must start the transaction before creating the EntityManager
+             or else call entityManager.joinTransaction()*/
             tm.begin();
-//            logger.infof("About to store dog and breed");
             EntityManager em = emf.createEntityManager();
             em.persist(rpt);
             em.flush();
@@ -185,7 +186,8 @@ public class MongoDBFullFeaturedTest
 //    rpt.setFromObjId(181L);
 //    rpt.setStatus((byte) 1);
 //        
-        mongoTemplate.insert(rpt);
+//      mongoTemplate.insert(rpt);
+      mongoTemplate.save(rpt);
     }
     
     @Test

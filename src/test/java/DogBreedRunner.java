@@ -23,10 +23,10 @@ import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.junit.Test;
+import com.mng.domain.Breed;
+import com.mng.domain.Dog;
+import com.mng.utils.date.DateUtils;
 import com.mongodb.BasicDBObject;
-import domain.Breed;
-import domain.Dog;
-import utils.date.DateUtils;
 
 public class DogBreedRunner
 {
