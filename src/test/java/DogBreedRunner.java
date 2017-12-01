@@ -22,7 +22,6 @@ import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
-import org.junit.Test;
 import com.mng.domain.Breed;
 import com.mng.domain.Dog;
 import com.mng.utils.date.DateUtils;
@@ -34,7 +33,7 @@ public class DogBreedRunner
 //    private static final Logger logger = LoggerFactory.getLogger(DogBreedRunner.class);
     private final Log logger = LoggerFactory.make();
 
-    @Test
+//    @Test
    public void timeTest(){
        logger.debug(LocalDateTime.now());
        logger.debug(DateTimeFormatter.BASIC_ISO_DATE.format(LocalDateTime.now()));
@@ -54,7 +53,7 @@ public class DogBreedRunner
        logger.infof(DateUtils.getMiPaasNowChinaTime().toString());
    }
     
-   @Test
+//   @Test
    public void simpleTest() throws NamingException
     {
         StopWatch sw = new StopWatch();

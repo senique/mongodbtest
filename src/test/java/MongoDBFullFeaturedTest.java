@@ -20,7 +20,6 @@ import org.hibernate.ogm.OgmSessionFactory;
 import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
-import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.mng.domain.ReportRecord;
@@ -69,14 +68,7 @@ public class MongoDBFullFeaturedTest
             .build();
     }
     
-    @Test
-    public void otherTest()
-    {
-
-    }
-    
-    
-    @Test
+//    @Test
     public void mongoByHibernateJpaTest()
     {
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
@@ -118,7 +110,7 @@ public class MongoDBFullFeaturedTest
         }
     }    
     
-    @Test
+//    @Test
     public void mongoByHibernateOgmTest()
     {
         ogmSessionFactory = getOgmSessionFactory(ReportRecord.class);
@@ -149,7 +141,7 @@ public class MongoDBFullFeaturedTest
         osn.close();
     }
     
-    @Test
+//    @Test
     public void mongoByMongoTemplateTest()
     {
 //        MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
@@ -190,7 +182,7 @@ public class MongoDBFullFeaturedTest
       mongoTemplate.save(rpt);
     }
     
-    @Test
+//    @Test
     public void mongoByMongoClientTest()
     {
         MongoClient mongoClient = new MongoClient("10.0.75.1", 27017);  
@@ -214,7 +206,7 @@ public class MongoDBFullFeaturedTest
         mongoClient.close();
     }
     
-    @Test
+//    @Test
     @Deprecated
     public void mongoByMongoApiTest()
     {

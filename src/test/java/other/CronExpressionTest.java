@@ -8,7 +8,6 @@ package other;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
-import org.junit.Test;
 
 /**
  * 秒分时 天月周 年
@@ -30,7 +29,7 @@ import org.junit.Test;
  */
 public class CronExpressionTest 
 {
-    @Test
+//    @Test
     public void maintest() throws ParseException
     {
 //        String token = "T63hTyVs1yrr5rkz";
