@@ -9,7 +9,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <mongo:mongo host="10.0.75.1" port="27017" />
     <mongo:db-factory dbname="testdb" mongo-ref="mongo" />
       
-    <!-- 操作mongodb -->  
+    <!-- 操作mongodb --> 
+    <!-- Spring Data Document(1.0.0.M1-1.0.0.M3)，Spring Data MongoDB(from 1.0.0.M4)--> 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">  
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  
         <constructor-arg name="mongoConverter" ref="mappingMongoConverter" />  

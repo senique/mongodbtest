@@ -7,20 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Repository;
-import com.mng.domain.ReportRecordNewId;
 
 //cant use DetachedCriteria
 @SuppressWarnings("unchecked")
-@Repository
-public class MongoTemplateRepository extends AbstractBaseRepository {
+public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     
     private MongoTemplate mongoTemplate;
     
-    public Class<ReportRecordNewId> getEntityClass() {
-        return ReportRecordNewId.class;
-    }
+    protected abstract <T> Class<T> getEntityClass();
     
     @Autowired
     @Qualifier("mongoTemplate")
@@ -45,8 +40,8 @@ public class MongoTemplateRepository extends AbstractBaseRepository {
     }
     
     @Override
-    public <T> T findListByCondition(T condition) throws Exception {
-        return null;
+    public <T> T findListByCondition(Query query) throws Exception {
+        return (T) mongoTemplate.find(query, this.getEntityClass());
     }
     
     @Override
@@ -57,21 +52,7 @@ public class MongoTemplateRepository extends AbstractBaseRepository {
     
     @Override
     public <T> void delete(T entity) throws Exception {
+//      .remove(query, entityClass);
         mongoTemplate.remove(entity);
     }
-    
-    /*    
-    private MongoDbFactory mongoDbFactory;
-    public void setSessionFactory(MongoDbFactory mongoDbFactory) {
-        this.mongoDbFactory = mongoDbFactory;
-    }
-    
-    protected MongoDbFactory getMongoDbFactory() {
-        return this.mongoDbFactory;
-    }
-    protected MongoTemplate getMongoTemplate() {
-        if(this.mongoTemplate == null) this.mongoTemplate = new MongoTemplate(getMongoDbFactory());
-        return this.mongoTemplate;
-    }
-    */
 }

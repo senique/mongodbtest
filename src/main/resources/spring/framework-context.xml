@@ -12,7 +12,10 @@
     <context:component-scan base-package="com.mng.mongo.template.*">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
-<!--     <context:component-scan base-package="com.mng.mongo.template.**.dao">
+<!--      <context:component-scan base-package="com.mng.mongo.template.dao">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+     <context:component-scan base-package="com.mng.mongo.template.repository">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan> -->
     
