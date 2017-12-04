@@ -1,13 +1,12 @@
 package com.mng.domain;
 
 import java.util.Date;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.TableGenerator;
+import org.springframework.data.annotation.Id;
 
-@Entity
+//@Entity
 //@Table(name = "report_record", catalog = "vm_report")
 public class ReportRecord implements java.io.Serializable
 {
@@ -56,7 +55,7 @@ public class ReportRecord implements java.io.Serializable
           valueColumnName = "seed")
     public Long getId()
     {
-        return id;
+        return id;  
     }
     
     public void setId(Long id)

@@ -1,13 +1,12 @@
 package com.mng.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
+import org.springframework.data.annotation.Id;
 
-@Entity
+//@Entity
 public class Dog
 {
     @Id

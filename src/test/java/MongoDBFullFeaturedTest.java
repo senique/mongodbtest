@@ -1,3 +1,4 @@
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -142,7 +143,7 @@ public class MongoDBFullFeaturedTest
     }
     
 //    @Test
-    public void mongoByMongoTemplateTest()
+    public void mongoByMongoTemplateTest() throws UnknownHostException
     {
 //        MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
         MongoTemplate mongoTemplate = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("10.0.75.1", 27017), "testdb"));
@@ -208,7 +209,7 @@ public class MongoDBFullFeaturedTest
     
 //    @Test
     @Deprecated
-    public void mongoByMongoApiTest()
+    public void mongoByMongoApiTest() throws UnknownHostException
     {
         Mongo mongo = new Mongo("10.0.75.1", 27017);
         DB db = mongo.getDB("testdb");

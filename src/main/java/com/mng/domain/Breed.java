@@ -1,11 +1,10 @@
 package com.mng.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Id;
 
-@Entity
+//@Entity
 public class Breed
 {
     
