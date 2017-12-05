@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 
 public class DateUtils
@@ -22,13 +21,15 @@ public class DateUtils
         // System.out.println(Calendar.getInstance(Locale.CHINA).getTime());
         // System.out.println(Calendar.getInstance(Locale.CHINA).getTime());
         // System.out.println(format(new Date(), "yyyy-MM-dd hh:mm:ss"));
-        Date date2 = new Date(1465292886120L);
+//        Date date2 = new Date(1465292886120L);
+//        
+//        System.out.println(date2);
+//        System.out.println(new Date());
+//        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+//        System.out.println(new Date(System.currentTimeMillis()));
+//        System.out.println(getMiPaasNowChinaTime());
         
-        System.out.println(date2);
-        System.out.println(new Date());
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
-        System.out.println(new Date(System.currentTimeMillis()));
-        System.out.println(getMiPaasNowChinaTime());
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd").parse("2017-12-05 15:31:52"));
         
     }
     

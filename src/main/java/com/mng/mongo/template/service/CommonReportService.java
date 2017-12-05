@@ -24,10 +24,10 @@ public class CommonReportService extends CommonReportRepository
      * @createtime ： 2017年12月1日 上午18:03:16
      * @description 保存单条数据
      * @since version 初始于版本 v0.0.1 
-     * @param entity
+     * @param reportRecord
      */
-    public void saveReportRecord(ReportRecordNewId entity) {
-        super.save(entity);
+    public void saveReportRecord(ReportRecordNewId reportRecord) {
+        super.save(reportRecord);
     }
     
     /**
@@ -130,20 +130,25 @@ public class CommonReportService extends CommonReportRepository
         return super.findListByCondition(query);
     }
     
-    //TODO
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月5日 上午9:28:48
+     * @description 修改除主键外的 其他全部数据(修改字段需要在方法中指定)
+     * @since version 初始于版本 v0.0.1 
+     * @param updateData
+     * @throws Exception
+     */
     public void updateReportRecord(ReportRecordNewId updateData) throws Exception {
 //        super.update(Query.query(Criteria.where("id").is(updateData.getId())), Update.update("periodDate", updateData.getPeriodDate()));
         super.update(Query.query(Criteria.where("id").is(updateData.getId())), 
-                Update.update("periodDate", updateData.getPeriodDate())
-//                .addToSet("newlabeladdToSet", "newlabeladdToSet2")
-//                .push("newlabelpush", "newlabelpush")
-//                .pull("newlabel01", "newlabel01")
-//                .inc("status", 1)
-//                .rename("newlabel01", "newlabel02")
-//                .set("newlabel02", "newlabel03")
-//                .unset("newlabel02")
-//                .set("newlabel04", "newlabel04")
-                );
+                Update.update("templeteId", updateData.getTempleteId())
+                        .set("createdTime", updateData.getCreatedTime())
+                        .set("periodDate", updateData.getPeriodDate())
+                        .set("fromBusitype", updateData.getFromBusitype())
+                        .set("fromObjId", updateData.getFromObjId())
+                        .set("status", updateData.getStatus())
+                        );
     }
     
     /**
@@ -162,6 +167,22 @@ public class CommonReportService extends CommonReportRepository
     /**
      * 
      * @author：luocj
+     * @createtime ： 2017年12月5日 上午9:39:08
+     * @description 根据id 和 fieldName累加
+     * @since version 初始于版本 v0.0.1 
+     * @param id
+     * @param filedName
+     * @param filedValue
+     * @throws Exception
+     */
+    public void increaseValueToFiled(Object id, String filedName, Long filedValue) throws Exception
+    {
+        super.update(Query.query(Criteria.where("id").is(id)), new Update().inc(filedName, filedValue));
+    }
+    
+    /**
+     * 
+     * @author：luocj
      * @createtime ： 2017年12月4日 上午10:10:42
      * @description 根据ID 添加字段
      *              方法二：直接在实体对象增加字段，调用保存方法
@@ -173,7 +194,8 @@ public class CommonReportService extends CommonReportRepository
      */
     public void addFiled(Object id, String filedName, String filedValue) throws Exception
     {
-        super.update(Query.query(Criteria.where("id").is(id)), Update.update(filedName, filedValue));
+//        super.update(Query.query(Criteria.where("id").is(id)), Update.update(filedName, filedValue));
+        super.update(Query.query(Criteria.where("id").is(id)), new Update().set(filedName, filedValue));
     }
     
     /**

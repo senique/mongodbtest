@@ -1,7 +1,9 @@
 package com.mng.mongo.template.controller;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.List;
-import org.apache.commons.lang.ArrayUtils;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,29 +24,39 @@ public class CommonReportController
         mtService = (CommonReportService) app.getBean("commonReportService");
     }
 
-//    public void saveTest() throws Exception{
-//        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        ReportRecordNewId rpt = new ReportRecordNewId();
-////            rpt.setName("abc"); 
-//        rpt.setTempleteId(11L);
-//        rpt.setCreatedTime(now);
-//        rpt.setPeriodDate(now);
-//        rpt.setFromBusitype(888);
-//        rpt.setFromObjId(188L);
-//        rpt.setStatus((byte) 1);
-//        mtService.saveReportRecord(rpt);
-//    }    
-//    
-//    @Test
-//    public void findByIdTest() throws Exception{
-//        //ObjectId("5a210a3639a7ed052c4c4898")
-//        //ObjectId("5a211d2539a7ed2a08cdf0ef")
-//        ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
-//        if(null != ret)
-//        {
-//          System.out.println(ret.toString());
-//        }
-//    }    
+    @Test
+    public void saveTest() throws Exception{
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        ReportRecordNewId rpt = new ReportRecordNewId();
+//            rpt.setName("abc"); 
+//        rpt.setId(BigInteger.valueOf(101));
+        rpt.setTempleteId(22L);
+        rpt.setCreatedTime(now);
+        rpt.setPeriodDate(now);
+        rpt.setFromBusitype(222);
+        rpt.setFromObjId(now.getTime());
+        rpt.setStatus((byte) 1);
+        mtService.saveReportRecord(rpt);
+        
+        Map<String, Object> para = new HashMap<>();
+        para.put("fromObjId", now.getTime());
+        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+        if(null != ret)
+        {
+          System.out.println(ret.toString());
+        }
+    }    
+    
+    @Test
+    public void findByIdTest() throws Exception{
+        //ObjectId("5a210a3639a7ed052c4c4898")
+        //ObjectId("5a211d2539a7ed2a08cdf0ef")
+        ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+        if(null != ret)
+        {
+          System.out.println(ret.toString());
+        }
+    }    
 //    
 //    @Test
 //    public void findByMapTest() throws Exception{
@@ -63,19 +75,19 @@ public class CommonReportController
 //        }
 //    }
 //    
-    @Test
-  public void findListByConditionTest() throws Exception{
-        Long templateId = 100L;
-        Long fromObjId = null;
-        //DateUtils.parseDate("2017-12-02 10:21:08", "yyyy-MM-dd hh:mm:ss")
-        Date startPeriodDate = null;
-        Date endPeriodDate = null;
-        String addremark = null;//支持"模糊查询"
-        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
-        if(null != retList) {
-            System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
-        }
-  }
+//    @Test
+//  public void findListByConditionTest() throws Exception{
+//        Long templateId = 100L;
+//        Long fromObjId = null;
+//        //DateUtils.parseDate("2017-12-02 10:21:08", "yyyy-MM-dd hh:mm:ss")
+//        Date startPeriodDate = null;
+//        Date endPeriodDate = null;
+//        String addremark = null;//支持"模糊查询"
+//        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
+//        if(null != retList) {
+//            System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
+//        }
+//  }
 //    
 //  @Test
 //  public void updateTest() throws Exception{
@@ -87,6 +99,9 @@ public class CommonReportController
 //        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
 //        ret.setPeriodDate(now);
 //        mtService.updateReportRecord(ret);
+//        
+//        //根据id 和 fieldName累加
+//        mtService.increaseValueToFiled("5a211a6e39a7ed3888350c36", "status", 2L);
 //      }
 //  }   
 //  

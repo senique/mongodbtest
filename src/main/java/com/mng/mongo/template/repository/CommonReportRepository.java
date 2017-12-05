@@ -5,6 +5,7 @@ import com.mng.domain.ReportRecordNewId;
 import com.mng.mongo.template.dao.MongoTemplateRepository;
 
 @Repository
+@SuppressWarnings("unchecked")
 public class CommonReportRepository extends MongoTemplateRepository
 {
     

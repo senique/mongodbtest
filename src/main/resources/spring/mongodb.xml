@@ -34,4 +34,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
             <null /><!-- 这里设置为空,可以把 spring data mongodb 多余保存的_class字段去掉 -->  
         </constructor-arg>  
     </bean>
+    
+    <bean class="com.mng.utils.sequence.SaveMongoEventListener"></bean>
+    
 </beans>
