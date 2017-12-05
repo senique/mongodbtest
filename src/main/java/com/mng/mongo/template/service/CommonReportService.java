@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import com.mng.domain.ReportRecordNewId;
 import com.mng.mongo.template.repository.CommonReportRepository;
+import com.mng.utils.page.PageResult;
+import com.mng.utils.page.Pager;
 
 @SuppressWarnings("unchecked")
 @Service
@@ -93,7 +95,7 @@ public class CommonReportService extends CommonReportRepository
      * 
      * @author：luocj
      * @createtime ： 2017年12月4日 下午6:10:45
-     * @description 按条件查询多条数据（条件是单个参数，且包含时间参数）
+     * @description 按条件查询多条数据
      * @since version 初始于版本 v0.0.1 
      * @param templeteId
      * @param fromObjId
@@ -128,6 +130,48 @@ public class CommonReportService extends CommonReportRepository
 //        query.with(new Sort(new Order(Direction.DESC, "createdTime")));
 //        query.with(new Sort("createdTime").and(new Sort("fromObjId")));//多个
         return super.findListByCondition(query);
+    }
+    
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月5日 下午5:20:51
+     * @description 按条件查询多条数据,带分页条件（分页从0开始）
+     * @since version 初始于版本 v0.0.1 
+     * @param templeteId
+     * @param fromObjId
+     * @param startPeriodDate
+     * @param endPeriodDate
+     * @param addremark
+     * @param pager
+     * @return
+     * @throws Exception
+     */
+    public PageResult<ReportRecordNewId> findReportRecordListByCondition(Long templeteId, Long fromObjId, Date startPeriodDate, Date endPeriodDate, String addremark, Pager pager) throws Exception {
+        Query query = new Query();
+        
+        if(null != templeteId && 0!=templeteId) {
+            query.addCriteria(Criteria.where("templeteId").is(templeteId));
+        }        
+        if(null != fromObjId && 0!=fromObjId) {
+            query.addCriteria(Criteria.where("fromObjId").is(fromObjId));
+        }         
+        if(null != startPeriodDate && null != endPeriodDate) {
+            query.addCriteria(Criteria.where("periodDate").gte(startPeriodDate).andOperator(Criteria.where("periodDate").lte(endPeriodDate)));
+        } else if(null != startPeriodDate) {
+            query.addCriteria(Criteria.where("periodDate").gte(startPeriodDate));
+        } else if(null != endPeriodDate) {
+            query.addCriteria(Criteria.where("periodDate").lte(endPeriodDate));
+        } 
+        if(StringUtils.isNotBlank(addremark))
+        {
+            query.addCriteria(Criteria.where("addremark").regex(Pattern.compile("^.*"+addremark+".*$")));
+        }
+        /* 排序*/
+        query.with(new Sort("createdTime"));//默认是 ASC
+//        query.with(new Sort(new Order(Direction.DESC, "createdTime")));
+//        query.with(new Sort("createdTime").and(new Sort("fromObjId")));//多个
+        return super.findListByCondition(query, pager);
     }
     
     /**

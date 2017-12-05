@@ -3,7 +3,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.mng.domain.ReportRecordNewId;
 import com.mng.mongo.template.service.CommonReportService;
+import com.mng.utils.page.PageResult;
+import com.mng.utils.page.Pager;
 
 public class CommonReportController
 {
@@ -57,87 +61,102 @@ public class CommonReportController
           System.out.println(ret.toString());
         }
     }    
-//    
-//    @Test
-//    public void findByMapTest() throws Exception{
-//        Map<String, Object> para = new HashMap<>();
-//        para.put("templeteId", 11);
-//        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
-//        if(null != ret)
-//        {
-//          System.out.println(ret.toString());
-//        }
-//        
-//        List<ReportRecordNewId> retList = mtService.findReportRecordListByMap(para);
-//        if(null != retList)
-//        {
-//          System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
-//        }
-//    }
-//    
-//    @Test
-//  public void findListByConditionTest() throws Exception{
-//        Long templateId = 100L;
-//        Long fromObjId = null;
-//        //DateUtils.parseDate("2017-12-02 10:21:08", "yyyy-MM-dd hh:mm:ss")
-//        Date startPeriodDate = null;
-//        Date endPeriodDate = null;
-//        String addremark = null;//支持"模糊查询"
-//        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
-//        if(null != retList) {
-//            System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
-//        }
-//  }
-//    
-//  @Test
-//  public void updateTest() throws Exception{
-//      //ObjectId("5a211a6e39a7ed3888350c36")
-//      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
-//      if(null != ret)
-//      {
-//        System.out.println(ret.toString());
-//        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        ret.setPeriodDate(now);
-//        mtService.updateReportRecord(ret);
-//        
-//        //根据id 和 fieldName累加
-//        mtService.increaseValueToFiled("5a211a6e39a7ed3888350c36", "status", 2L);
-//      }
-//  }   
-//  
-//  @Test
-//  public void deleteTest() throws Exception{
-//     //ObjectId("5a213c9a39a7ed0744ee74c8")
-//      String tedtId = "5a213c9a39a7ed0744ee74c8";
-//      ReportRecordNewId ret = mtService.findById(tedtId);
-//      if(null != ret)
-//      { 
-//        System.out.println(ret.toString());
-//        mtService.deleteReportRecord(ret);
-//        ReportRecordNewId rettmp = mtService.findById(tedtId);
-//        
-//        ret.setFromObjId(20L);
-//        ret.setFromBusitype(20);
-//        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        ret.setPeriodDate(now);
-//        mtService.saveReportRecord(ret);
-//        ret = mtService.findById(tedtId);
-//        System.out.println("after delete ["+rettmp+"]");
-//        System.out.println("after resave ["+ret+"]");
-//      }
-//  }  
-//  
-//  @Test
-//  public void addOrDeleteOrRenameFiledTest() throws Exception{
-//      //ObjectId("5a211a6e39a7ed3888350c36")
-//      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
-//      if(null != ret)
-//      {
-//        System.out.println(ret.toString());
-//        mtService.addFiled(ret.getId(), "addremark", "这是测试模糊查询的remarktest");
-////        mtService.renameFiled(ret.getId(), "newlabel05", "newlabel05");
-////        mtService.deleteFiled(ret.getId(), "newlabel05");
-//      }
-//  } 
+    
+    @Test
+    public void findByMapTest() throws Exception{
+        Map<String, Object> para = new HashMap<>();
+        para.put("templeteId", 11);
+        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+        if(null != ret)
+        {
+          System.out.println(ret.toString());
+        }
+        
+        List<ReportRecordNewId> retList = mtService.findReportRecordListByMap(para);
+        if(null != retList)
+        {
+          System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
+        }
+    }
+    
+    @Test
+  public void findListByConditionTest() throws Exception{
+        Long templateId = 100L;
+        Long fromObjId = null;
+        //DateUtils.parseDate("2017-12-02 10:21:08", "yyyy-MM-dd hh:mm:ss")
+        Date startPeriodDate = null;
+        Date endPeriodDate = null;
+        String addremark = null;//支持"模糊查询"
+        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
+        if(null != retList) {
+            System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
+        }
+  }
+    @Test
+    public void findListByConditionWithPage() throws Exception{
+          Long templateId = 22L;
+          Long fromObjId = null;
+          //DateUtils.parseDate("2017-12-02 10:21:08", "yyyy-MM-dd hh:mm:ss")
+          Date startPeriodDate = null;
+          Date endPeriodDate = null;
+          String addremark = null;//支持"模糊查询"
+          Pager pager = new Pager(6, 0);
+          PageResult<ReportRecordNewId> pageRet = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark, pager );
+          if(null != pageRet) {
+              System.out.println( pageRet.toString() );
+              System.out.println( ArrayUtils.toString(pageRet.getList().stream().map(r->r.toString()).toArray()) );
+          }
+    }
+    
+  @Test
+  public void updateTest() throws Exception{
+      //ObjectId("5a211a6e39a7ed3888350c36")
+      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+      if(null != ret)
+      {
+        System.out.println(ret.toString());
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        ret.setPeriodDate(now);
+        mtService.updateReportRecord(ret);
+        
+        //根据id 和 fieldName累加
+        mtService.increaseValueToFiled("5a211a6e39a7ed3888350c36", "status", 2L);
+      }
+  }   
+  
+  @Test
+  public void deleteTest() throws Exception{
+     //ObjectId("5a213c9a39a7ed0744ee74c8")
+      String tedtId = "5a213c9a39a7ed0744ee74c8";
+      ReportRecordNewId ret = mtService.findById(tedtId);
+      if(null != ret)
+      { 
+        System.out.println(ret.toString());
+        mtService.deleteReportRecord(ret);
+        ReportRecordNewId rettmp = mtService.findById(tedtId);
+        
+        ret.setFromObjId(20L);
+        ret.setFromBusitype(20);
+        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+        ret.setPeriodDate(now);
+        mtService.saveReportRecord(ret);
+        ret = mtService.findById(tedtId);
+        System.out.println("after delete ["+rettmp+"]");
+        System.out.println("after resave ["+ret+"]");
+      }
+  }  
+  
+  @Test
+  public void addOrDeleteOrRenameFiledTest() throws Exception{
+      //ObjectId("5a211a6e39a7ed3888350c36")
+      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+      if(null != ret)
+      {
+        System.out.println(ret.toString());
+        mtService.addFiled(ret.getId(), "addremark", "这是测试模糊查询的remarktest");
+//        mtService.renameFiled(ret.getId(), "newlabel05", "newlabel05");
+//        mtService.deleteFiled(ret.getId(), "newlabel05");
+      }
+  } 
     
 }
