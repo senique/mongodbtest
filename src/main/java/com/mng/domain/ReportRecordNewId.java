@@ -3,7 +3,7 @@ package com.mng.domain;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import com.mng.utils.sequence.GeneratedValue;
-import com.mng.utils.sequence.TemporalValue;
+import com.mongodb.BasicDBObject;
 
 public class ReportRecordNewId implements java.io.Serializable
 {
@@ -17,7 +17,8 @@ public class ReportRecordNewId implements java.io.Serializable
     
     private Date createdTime;
     
-    @TemporalValue
+//    @TemporalValue
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date periodDate;
     
     private Integer fromBusitype;
@@ -25,6 +26,15 @@ public class ReportRecordNewId implements java.io.Serializable
     private Long fromObjId;
     
     private Byte status;
+    
+    /*
+    "turnOver": 0,
+    "orderCount": 0,
+    "profit": 0,
+    "beginTime": 1506528000000,
+    "endTime": 1506563009030
+     */
+    private BasicDBObject columnInfo;
     
     public ReportRecordNewId()
     {
@@ -126,7 +136,16 @@ public class ReportRecordNewId implements java.io.Serializable
                 + id + ", templeteId=" + templeteId + ", createdTime=" + createdTime + ", periodDate=" + periodDate
                 + ", fromBusitype=" + fromBusitype + ", fromObjId=" + fromObjId + ", status=" + status + "]";
     }
-    
-    
+
+    public BasicDBObject getColumnInfo()
+    {
+        return columnInfo;
+    }
+
+    public void setColumnInfo(BasicDBObject columnInfo)
+    {
+        this.columnInfo = columnInfo;
+    }
+
     
 }

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.query.Update;
 public abstract class AbstractBaseRepository {
     abstract <T> void save(T entity);
     
-    abstract <T> T findById(String id) throws Exception;
+    abstract <T, E> T findById(E id) throws Exception;
    
     abstract <T> T findOne(Query query) throws Exception;
     

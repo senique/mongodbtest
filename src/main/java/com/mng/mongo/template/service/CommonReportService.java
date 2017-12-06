@@ -1,16 +1,22 @@
 package com.mng.mongo.template.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import com.mng.domain.ReportRecordNewId;
+import com.mng.domain.ReportRecordResult;
 import com.mng.mongo.template.repository.CommonReportRepository;
 import com.mng.utils.page.PageResult;
 import com.mng.utils.page.Pager;
@@ -41,7 +47,7 @@ public class CommonReportService extends CommonReportRepository
      * @param id
      * @throws Exception
      */
-    public ReportRecordNewId findById(String id) throws Exception {
+    public ReportRecordNewId findById(Long id) throws Exception {
         return super.findById(id);
     }
     
@@ -98,37 +104,17 @@ public class CommonReportService extends CommonReportRepository
      * @description 按条件查询多条数据
      * @since version 初始于版本 v0.0.1 
      * @param templeteId
-     * @param fromObjId
+     * @param fromObjIds
      * @param startPeriodDate
      * @param endPeriodDate
      * @param addremark
      * @return
      * @throws Exception
      */
-    public List<ReportRecordNewId> findReportRecordListByCondition(Long templeteId, Long fromObjId, Date startPeriodDate, Date endPeriodDate, String addremark) throws Exception {
+    public List<ReportRecordNewId> findReportRecordListByCondition(Long templeteId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark) throws Exception {
         Query query = new Query();
         
-        if(null != templeteId && 0!=templeteId) {
-            query.addCriteria(Criteria.where("templeteId").is(templeteId));
-        }        
-        if(null != fromObjId && 0!=fromObjId) {
-            query.addCriteria(Criteria.where("fromObjId").is(fromObjId));
-        }         
-        if(null != startPeriodDate && null != endPeriodDate) {
-            query.addCriteria(Criteria.where("periodDate").gte(startPeriodDate).andOperator(Criteria.where("periodDate").lte(endPeriodDate)));
-        } else if(null != startPeriodDate) {
-            query.addCriteria(Criteria.where("periodDate").gte(startPeriodDate));
-        } else if(null != endPeriodDate) {
-            query.addCriteria(Criteria.where("periodDate").lte(endPeriodDate));
-        } 
-        if(StringUtils.isNotBlank(addremark))
-        {
-            query.addCriteria(Criteria.where("addremark").regex(Pattern.compile("^.*"+addremark+".*$")));
-        }
-        /* 排序*/
-        query.with(new Sort("createdTime"));//默认是 ASC
-//        query.with(new Sort(new Order(Direction.DESC, "createdTime")));
-//        query.with(new Sort("createdTime").and(new Sort("fromObjId")));//多个
+        dealSingleParameter(templeteId, fromObjIds, startPeriodDate, endPeriodDate, addremark, query);
         return super.findListByCondition(query);
     }
     
@@ -147,14 +133,22 @@ public class CommonReportService extends CommonReportRepository
      * @return
      * @throws Exception
      */
-    public PageResult<ReportRecordNewId> findReportRecordListByCondition(Long templeteId, Long fromObjId, Date startPeriodDate, Date endPeriodDate, String addremark, Pager pager) throws Exception {
+    public PageResult<ReportRecordNewId> findReportRecordListByCondition(Long templeteId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark, Pager pager) throws Exception {
         Query query = new Query();
         
+        dealSingleParameter(templeteId, fromObjIds, startPeriodDate, endPeriodDate, addremark, query);
+        return super.findListByCondition(query, pager);
+    }
+
+    //处理参数
+    private void dealSingleParameter(Long templeteId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate,
+            String addremark, Query query)
+    {
         if(null != templeteId && 0!=templeteId) {
             query.addCriteria(Criteria.where("templeteId").is(templeteId));
         }        
-        if(null != fromObjId && 0!=fromObjId) {
-            query.addCriteria(Criteria.where("fromObjId").is(fromObjId));
+        if(!CollectionUtils.isEmpty(fromObjIds)) {
+            query.addCriteria(Criteria.where("fromObjId").in(fromObjIds));
         }         
         if(null != startPeriodDate && null != endPeriodDate) {
             query.addCriteria(Criteria.where("periodDate").gte(startPeriodDate).andOperator(Criteria.where("periodDate").lte(endPeriodDate)));
@@ -171,7 +165,6 @@ public class CommonReportService extends CommonReportRepository
         query.with(new Sort("createdTime"));//默认是 ASC
 //        query.with(new Sort(new Order(Direction.DESC, "createdTime")));
 //        query.with(new Sort("createdTime").and(new Sort("fromObjId")));//多个
-        return super.findListByCondition(query, pager);
     }
     
     /**
@@ -270,6 +263,31 @@ public class CommonReportService extends CommonReportRepository
     public void renameFiled(Object id, String filedName, String newFiledName) throws Exception
     {
         super.update(Query.query(Criteria.where("id").is(id)), new Update().rename(filedName, newFiledName));
+    }
+    
+    
+/*    db.reportRecordNewId.aggregate([
+        { $match: { "templeteId" : 21, "fromObjId":{"$in" :[101,102,103,104,105,106,107,108]}}}, 
+        { $group: { _id: "$templeteId",turnOver: {$sum: "$columnInfo.turnOver"}
+                                    ,orderCount: {$sum: "$columnInfo.orderCount"}
+                                    ,profit: {$sum: "$columnInfo.profit"}
+                                    ,count: {$sum: 1}
+                                    }}
+        ])*/
+    public AggregationResults<ReportRecordResult> aggregate()
+    {
+        AggregationOperation match = Aggregation.match(Criteria.where("templeteId").is(21).and("fromObjId").in(Arrays.asList(101)));
+        AggregationOperation group = Aggregation.group("templeteId").sum("fromBusitype").as("fromBusitype")
+                                                                    .sum("status").as("status");
+//        /**
+//         * java.lang.NullPointerException
+//                at org.springframework.data.mapping.context.AbstractMappingContext.getPersistentPropertyPath(AbstractMappingContext.java:258)
+//         */
+//        AggregationOperation group = Aggregation.group("templeteId").sum("columnInfo.turnOver").as("turnOver");
+        Aggregation aggregation = Aggregation.newAggregation(match, group);
+        AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
+        
+        return result;
     }
 
     

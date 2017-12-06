@@ -1,5 +1,8 @@
 
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -12,13 +15,23 @@ public class ConfigTest
 //        #or as an applet parameter, or in an application resource file:  java.naming.factory.initial
         InitialContext ctx = new InitialContext();
         System.out.println(ctx);
-        StringBuilder hql = new StringBuilder();
-        hql.append("SELECT u FROM User u, ChannelAuthUser cu    ");
-        hql.append("WHERE cu.channelId = :channelId     ");
-        hql.append("AND cu.status = :status     ");
-        hql.append("AND u.userid = cu.authuserId    ");
-        hql.append("AND u.roleId = :roleId  ");
-        System.out.println(hql);
+        
+//        Map<Integer, Integer> rdMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> rdMap = new HashMap<Integer, Integer>();
+        for(int i = 0; i < 1000; i++) {
+            int rd = new Random().nextInt(3);
+            if(null != rdMap.get(rd)) {
+                rdMap.put(rd, (Integer)rdMap.get(rd)+1);
+            }
+            else {
+                rdMap.put(rd, 1);
+            }
+//            System.out.println(rd);
+        }
+        System.out.println(rdMap.toString());
+        
+        
+
 
     }
     

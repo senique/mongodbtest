@@ -1,7 +1,6 @@
 package com.mng.utils.sequence;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 import javax.annotation.Resource;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.ReflectionUtils;
-import com.mng.utils.date.DateUtils;
 
 public class SaveMongoEventListener extends AbstractMongoEventListener<Object>
 {
@@ -32,7 +30,7 @@ public class SaveMongoEventListener extends AbstractMongoEventListener<Object>
                   }
                   if (field.isAnnotationPresent(TemporalValue.class)) {
 //                      field.set(source, new SimpleDateFormat("yyyy-MM-dd").format((Date) field.get(source)));
-                      field.set(source, DateUtils.getDateBeginTime((Date) field.get(source)));
+//                      field.set(source, DateUtils.getDateBeginTime((Date) field.get(source)));
                   }
                }
           });

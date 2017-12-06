@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import com.mng.utils.page.PageResult;
@@ -33,7 +34,7 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     }
     
     @Override
-    public <T> T findById(String id) throws Exception {
+    public <T, E> T findById(E id) throws Exception {
         return (T) mongoTemplate.findById(id, this.getEntityClass());
     }
     
@@ -78,7 +79,19 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
         query.skip((nowPage - 1) * pageSize); //start index
         query.limit(pageSize); 
         List<T> list = findListByCondition(query);
-        
         return new PageResult<T>(nowPage, pageSize, count, totalPageNum, list);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public  <T> T aggregate(Aggregation aggregation, Class inputType, Class outputType)
+    {
+        return (T) mongoTemplate.aggregate(aggregation, inputType, outputType);
+    }
+    
+    public void testFnc()
+    {
+//        mongoTemplate.aggregate(aggregation, outputType)
+//        mongoTemplate.group(inputCollectionName, groupBy, entityClass)
+//        mongoTemplate.mapReduce(inputCollectionName, mapFunction, reduceFunction, entityClass)
     }
 }

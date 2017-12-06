@@ -45,6 +45,12 @@
             	</exclusion>
             </exclusions>
         </dependency>
+        
+<!--         <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		    <version>2.6.0</version>
+		</dependency> -->
 
         <!-- test -->
         <dependency>
@@ -54,7 +60,7 @@
         </dependency>
         
         <!-- logging -->
-<!--         <dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.6.2</version>
@@ -63,8 +69,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.2</version>
-            <version>1.6.2</version>
-        </dependency> -->
+        </dependency> 
         
         
         <!-- Mongo API Note: This class has been superseded by MongoClient, and may be deprecated in a future release. -->

@@ -21,13 +21,13 @@ import org.hibernate.ogm.OgmSessionFactory;
 import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
+import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.mng.domain.ReportRecord;
 import com.mng.domain.ReportRecordNewId;
-import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -207,24 +207,39 @@ public class MongoDBFullFeaturedTest
         mongoClient.close();
     }
     
-//    @Test
+    @Test
     @Deprecated
     public void mongoByMongoApiTest() throws UnknownHostException
     {
         Mongo mongo = new Mongo("10.0.75.1", 27017);
         DB db = mongo.getDB("testdb");
-        DBCollection collection = db.getCollection("ReportRecordByMongoApi");
+//        DBCollection collection = db.getCollection("ReportRecordByMongoApi");
+//        
+////        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+//        Date now = DateUtils.getMiPaasNowChinaTime();
+//        BasicDBObject rpt = new BasicDBObject("id", 1)
+//                .append("templeteId", 1)
+//                .append("createdTime", now)
+//                .append("periodDate", now)
+//                .append("fromBusitype", 6)
+//                .append("fromObjId", 181)
+//                .append("status", 1)
+//                .append("dateStr", DateUtils.format(now, "yyyy-MM-dd hh:mm:ss"));
+//        
+////        BasicDBList columnInfoList = new BasicDBList();
+////        columnInfoList.put(1, Integer.valueOf(100));
+////        columnInfoList.put(2, Integer.valueOf(100));
+////        columnInfoList.put(3, Integer.valueOf(100));
+////        columnInfoList.put(4, now);
+////        columnInfoList.put(5, now);
+////        rpt.append("list", columnInfoList);
+//
+//        
+//        collection.insert(rpt);
         
-        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-        BasicDBObject rpt = new BasicDBObject("id", 1)
-                .append("templeteId", 1)
-                .append("createdTime", now)
-                .append("periodDate", now)
-                .append("fromBusitype", 6)
-                .append("fromObjId", 181)
-                .append("status", 1);
-        
-        collection.insert(rpt);
+        String command = "db.reportRecordNewId.aggregate([ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'fromBusitype' : { '$sum' : '$fromBusitype'} , 'status' : { '$sum' : '$status'}}}])";
+        CommandResult cret = db.command(command);
+        //{ "ok" : 0.0 , "errmsg" : "no such command: '{ 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}', bad cmd: '{ { 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}: true }'" , "code" : 59 , "codeName" : "CommandNotFound"}
         
         mongo.close();
     }
