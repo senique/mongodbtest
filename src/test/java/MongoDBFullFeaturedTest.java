@@ -81,12 +81,12 @@ public class MongoDBFullFeaturedTest
         Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
         /** java.lang.IllegalArgumentException: Unknown entity: com.mongodb.BasicDBObject*/
 //        BasicDBObject bsObj = new BasicDBObject();
-//        BasicDBObject rpt = new BasicDBObject("id", 1).append("templeteId", 1).append("createdTime", now).append("periodDate", now)
+//        BasicDBObject rpt = new BasicDBObject("id", 1).append("templateId", 1).append("createdTime", now).append("periodDate", now)
 //                .append("fromBusitype", 6).append("fromObjId", 181).append("status", 1);
 //        bsObj.put("ReportRecord", rpt);
         
         ReportRecord rpt = new ReportRecord();
-        rpt.setTempleteId(11L);
+        rpt.setTemplateId(11L);
         rpt.setCreatedTime(now);
         rpt.setPeriodDate(now);
         rpt.setFromBusitype(6);
@@ -124,12 +124,12 @@ public class MongoDBFullFeaturedTest
         
         /**TODO org.hibernate.MappingException: Unknown entity: com.mongodb.BasicDBObject*/
 //      BasicDBObject bsObj = new BasicDBObject();
-//      BasicDBObject rpt = new BasicDBObject("id", 1).append("templeteId", 1).append("createdTime", now).append("periodDate", now)
+//      BasicDBObject rpt = new BasicDBObject("id", 1).append("templateId", 1).append("createdTime", now).append("periodDate", now)
 //              .append("fromBusitype", 6).append("fromObjId", 181).append("status", 1);
 //      bsObj.put("ReportRecord", rpt);
         
         ReportRecord rpt = new ReportRecord();
-        rpt.setTempleteId(1L);
+        rpt.setTemplateId(1L);
         rpt.setCreatedTime(now);
         rpt.setPeriodDate(now);
         rpt.setFromBusitype(6);
@@ -153,7 +153,7 @@ public class MongoDBFullFeaturedTest
 //        /** org.springframework.data.mapping.MappingException: 
 //         * Couldn't find PersistentEntity for type class com.mongodb.BasicDBObject!*/
 //        BasicDBObject rpt = new BasicDBObject("id", 1)
-//                .append("templeteId", 1)
+//                .append("templateId", 1)
 //                .append("createdTime", now)
 //                .append("periodDate", now)
 //                .append("fromBusitype", 6)
@@ -163,7 +163,7 @@ public class MongoDBFullFeaturedTest
       //TODO can't auto generate id? and store
       ReportRecordNewId rpt = new ReportRecordNewId();
 //      rpt.setName("abc");
-      rpt.setTempleteId(1L);
+      rpt.setTemplateId(1L);
       rpt.setCreatedTime(now);
       rpt.setPeriodDate(now);
       rpt.setFromBusitype(6);
@@ -172,7 +172,7 @@ public class MongoDBFullFeaturedTest
       
 //      ReportRecord3 rpt = new ReportRecord3();
 ////    rpt.setName("abc");
-//    rpt.setTempleteId(1L);
+//    rpt.setTemplateId(1L);
 //    rpt.setCreatedTime(now);
 //    rpt.setPeriodDate(now);
 //    rpt.setFromBusitype(6);
@@ -192,7 +192,7 @@ public class MongoDBFullFeaturedTest
         
         Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
         Document rpt = new Document("id", 1)
-                .append("templeteId", 1)
+                .append("templateId", 1)
                 .append("createdTime", now)
                 .append("periodDate", now)
                 .append("fromBusitype", 6)
@@ -218,7 +218,7 @@ public class MongoDBFullFeaturedTest
 ////        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
 //        Date now = DateUtils.getMiPaasNowChinaTime();
 //        BasicDBObject rpt = new BasicDBObject("id", 1)
-//                .append("templeteId", 1)
+//                .append("templateId", 1)
 //                .append("createdTime", now)
 //                .append("periodDate", now)
 //                .append("fromBusitype", 6)
@@ -237,9 +237,9 @@ public class MongoDBFullFeaturedTest
 //        
 //        collection.insert(rpt);
         
-        String command = "db.reportRecordNewId.aggregate([ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'fromBusitype' : { '$sum' : '$fromBusitype'} , 'status' : { '$sum' : '$status'}}}])";
+        String command = "db.reportRecordNewId.aggregate([ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'fromBusitype' : { '$sum' : '$fromBusitype'} , 'status' : { '$sum' : '$status'}}}])";
         CommandResult cret = db.command(command);
-        //{ "ok" : 0.0 , "errmsg" : "no such command: '{ 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}', bad cmd: '{ { 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templeteId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templeteId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}: true }'" , "code" : 59 , "codeName" : "CommandNotFound"}
+        //{ "ok" : 0.0 , "errmsg" : "no such command: '{ 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}', bad cmd: '{ { 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}: true }'" , "code" : 59 , "codeName" : "CommandNotFound"}
         
         mongo.close();
     }

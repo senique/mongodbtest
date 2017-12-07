@@ -1,7 +1,6 @@
 package com.mng.mongo.template.dao;
 
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 public abstract class AbstractBaseRepository {
     abstract <T> void save(T entity);
@@ -14,7 +13,7 @@ public abstract class AbstractBaseRepository {
     
     abstract <T> T findListByCondition(Query Query) throws Exception;
     
-    abstract <T> void update(Query query, Update update) throws Exception;
+    abstract <T> void update(T entity) throws Exception;
     
     abstract <T> void delete(T entity) throws Exception;
 

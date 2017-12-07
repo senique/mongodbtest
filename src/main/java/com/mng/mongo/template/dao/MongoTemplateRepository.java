@@ -1,14 +1,17 @@
 package com.mng.mongo.template.dao;
 
 import java.util.List;
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import com.mng.utils.BeanConvertUtil;
 import com.mng.utils.page.PageResult;
 import com.mng.utils.page.Pager;
 
@@ -28,6 +31,11 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
         this.mongoTemplate = mongoTemplate;
     }
     
+    /**
+     * 特殊说明：
+     * 1. 如果已经存在主键，则会覆盖原有的数据；
+     * 2. 如果entity结构改变，则会按照新的结构保存数据（Schema无关性）；
+     */
     @Override
     public <T> void save(T entity) {
         mongoTemplate.save(entity);;
@@ -54,9 +62,16 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     }
     
     @Override
-    public <T> void update(Query query, Update update) throws Exception {
-        mongoTemplate.updateFirst(query, update, this.getEntityClass());
-//        mongoTemplate.updateMulti(query, update, this.getEntityClass());
+    public <T> void update(T entity) throws Exception {
+//      mongoTemplate.updateMulti(query, update, this.getEntityClass());
+//      mongoTemplate.updateFirst(query, update, this.getEntityClass());
+        
+        String exclude = "id";
+        Query query = Query.query(Criteria.where(exclude).is(BeanUtils.getProperty(entity, exclude)));
+        Update update = Update.fromDBObject(BeanConvertUtil.bean2DBObject(entity), exclude);
+        
+//        mongoTemplate.upsert(query , update, this.getEntityClass());
+        mongoTemplate.updateFirst(query , update, this.getEntityClass());
     }
     
     @Override
@@ -64,7 +79,87 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
 //      .remove(query, entityClass);
         mongoTemplate.remove(entity);
     }
+    
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月5日 上午9:39:08
+     * @description 根据id 和 fieldName累加
+     * @since version 初始于版本 v0.0.1 
+     * @param id
+     * @param filedName
+     * @param filedValue
+     * @throws Exception
+     */
+    public void increaseValueToFiled(Object id, String filedName, Long filedValue) throws Exception
+    {
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(id)), new Update().inc(filedName, filedValue), this.getEntityClass());
+    }
+    
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月4日 上午10:10:42
+     * @description 根据ID 添加字段
+     *              方法二：直接在实体对象增加字段，调用保存方法
+     * @since version 初始于版本 v0.0.1 
+     * @param id
+     * @param filedName
+     * @param filedValue
+     * @throws Exception
+     */
+    public void addFiled(Object id, String filedName, String filedValue) throws Exception
+    {
+//        super.update(Query.query(Criteria.where("id").is(id)), Update.update(filedName, filedValue));
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(id)), new Update().set(filedName, filedValue), this.getEntityClass());
+    }
 
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月4日 上午10:41:04
+     * @description 根据ID 删除字段
+     * @since version 初始于版本 v0.0.1 
+     * @param id
+     * @param filedName
+     * @throws Exception
+     */
+    public void deleteFiled(Object id, String filedName) throws Exception
+    {
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(id)), new Update().unset(filedName), this.getEntityClass());
+    }
+    
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月4日 上午11:48:16
+     * @description 重命名字段名称
+     * @since version 初始于版本 v0.0.1 
+     * @param id
+     * @param filedName
+     * @param newFiledName
+     * @throws Exception
+     */
+    public void renameFiled(Object id, String filedName, String newFiledName) throws Exception
+    {
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(id)), new Update().rename(filedName, newFiledName), this.getEntityClass());
+    }
+    
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月5日 下午5:20:51
+     * @description 按条件查询多条数据,带分页条件（分页从0开始）
+     * @since version 初始于版本 v0.0.1 
+     * @param templateId
+     * @param fromObjId
+     * @param startPeriodDate
+     * @param endPeriodDate
+     * @param addremark
+     * @param pager
+     * @return
+     * @throws Exception
+     */
     public <T> PageResult<T> findListByCondition(Query query, Pager pager) throws Exception {
         if(pager == null){
             pager = new Pager(0, 2000);

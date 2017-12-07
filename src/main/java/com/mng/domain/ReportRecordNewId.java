@@ -3,17 +3,16 @@ package com.mng.domain;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import com.mng.utils.sequence.GeneratedValue;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
-public class ReportRecordNewId implements java.io.Serializable
+public class ReportRecordNewId
 {
-    private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue
     private long id = 0L;
 
-    private Long templeteId;
+    private Long templateId;
     
     private Date createdTime;
     
@@ -27,6 +26,18 @@ public class ReportRecordNewId implements java.io.Serializable
     
     private Byte status;
     
+    // 自动添加字段到数据库
+//    private Double turnOver;
+//    public Double getTurnOver()
+//    {
+//        return turnOver;
+//    }
+//
+//    public void setTurnOver(Double turnOver)
+//    {
+//        this.turnOver = turnOver;
+//    }
+    
     /*
     "turnOver": 0,
     "orderCount": 0,
@@ -35,16 +46,24 @@ public class ReportRecordNewId implements java.io.Serializable
     "endTime": 1506563009030
      */
     private BasicDBObject columnInfo;
+    /*
+    0,
+    0,
+    0,
+    1506528000000,
+    1506563009030
+     */
+    private BasicDBList columnList;
     
     public ReportRecordNewId()
     {
         super();
     }
     
-    public ReportRecordNewId(Long templeteId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
+    public ReportRecordNewId(Long templateId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
     {
         super();
-        this.templeteId = templeteId;
+        this.templateId = templateId;
         this.periodDate = periodDate;
         this.fromBusitype = fromBusitype;
         this.fromObjId = fromObjid;
@@ -61,15 +80,15 @@ public class ReportRecordNewId implements java.io.Serializable
         this.id = id;
     }
     
-//    @Column(name = "templete_id")
-    public Long getTempleteId()
+//    @Column(name = "template_id")
+    public Long getTemplateId()
     {
-        return templeteId;
+        return templateId;
     }
     
-    public void setTempleteId(Long templeteId)
+    public void setTemplateId(Long templateId)
     {
-        this.templeteId = templeteId;
+        this.templateId = templateId;
     }
     
 //    @Temporal(TemporalType.TIMESTAMP)
@@ -132,8 +151,8 @@ public class ReportRecordNewId implements java.io.Serializable
     @Override
     public String toString()
     {
-        return "ReportRecord [id="
-                + id + ", templeteId=" + templeteId + ", createdTime=" + createdTime + ", periodDate=" + periodDate
+        return this.getClass().getSimpleName()+" [id="
+                + id + ", templateId=" + templateId + ", createdTime=" + createdTime + ", periodDate=" + periodDate
                 + ", fromBusitype=" + fromBusitype + ", fromObjId=" + fromObjId + ", status=" + status + "]";
     }
 
@@ -147,5 +166,14 @@ public class ReportRecordNewId implements java.io.Serializable
         this.columnInfo = columnInfo;
     }
 
-    
+    public BasicDBList getColumnList()
+    {
+        return columnList;
+    }
+
+    public void setColumnList(BasicDBList columnList)
+    {
+        this.columnList = columnList;
+    }
+
 }

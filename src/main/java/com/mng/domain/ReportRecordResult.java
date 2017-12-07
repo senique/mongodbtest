@@ -1,51 +1,33 @@
 package com.mng.domain;
 
-public class ReportRecordResult implements java.io.Serializable
+public class ReportRecordResult 
 {
-    private static final long serialVersionUID = 1L;
+    private Long id;
+    private Double sumValue;
     
-    private Long templeteId;
-    private Long turnOver;
-    private Integer orderCount;
-    private Long profit;
-    
-    public Long getTempleteId()
+    public Long getId()
     {
-        return templeteId;
+        return id;
     }
-    public void setTempleteId(Long templeteId)
+
+    public void setId(Long id)
     {
-        this.templeteId = templeteId;
+        this.id = id;
     }
-    public Long getTurnOver()
+
+    public Double getSumValue()
     {
-        return turnOver;
+        return sumValue;
     }
-    public void setTurnOver(Long turnOver)
+
+    public void setSumValue(Double sumValue)
     {
-        this.turnOver = turnOver;
+        this.sumValue = sumValue;
     }
-    public Integer getOrderCount()
-    {
-        return orderCount;
-    }
-    public void setOrderCount(Integer orderCount)
-    {
-        this.orderCount = orderCount;
-    }
-    public Long getProfit()
-    {
-        return profit;
-    }
-    public void setProfit(Long profit)
-    {
-        this.profit = profit;
-    }
-    
+
     @Override
     public String toString()
     {
-        return "ReportRecord [templeteId=" + templeteId + ", turnOver=" + turnOver + ", orderCount=" + orderCount
-                + ", profit=" + profit + "]";
+        return this.getClass().getSimpleName()+"[id=" + id + ", sumValue=" + sumValue+ "]";
     }
 }

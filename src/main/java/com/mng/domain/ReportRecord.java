@@ -14,7 +14,7 @@ public class ReportRecord implements java.io.Serializable
     
     private Long id;
     
-    private Long templeteId;
+    private Long templateId;
     
     private Date createdTime;
     
@@ -31,10 +31,10 @@ public class ReportRecord implements java.io.Serializable
         super();
     }
     
-    public ReportRecord(Long templeteId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
+    public ReportRecord(Long templateId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
     {
         super();
-        this.templeteId = templeteId;
+        this.templateId = templateId;
         this.periodDate = periodDate;
         this.fromBusitype = fromBusitype;
         this.fromObjId = fromObjid;
@@ -63,15 +63,15 @@ public class ReportRecord implements java.io.Serializable
         this.id = id;
     }
     
-//    @Column(name = "templete_id")
-    public Long getTempleteId()
+//    @Column(name = "template_id")
+    public Long getTemplateId()
     {
-        return templeteId;
+        return templateId;
     }
     
-    public void setTempleteId(Long templeteId)
+    public void setTemplateId(Long templateId)
     {
-        this.templeteId = templeteId;
+        this.templateId = templateId;
     }
     
 //    @Temporal(TemporalType.TIMESTAMP)
@@ -135,7 +135,7 @@ public class ReportRecord implements java.io.Serializable
     public String toString()
     {
         return "ReportRecord [id="
-                + id + ", templeteId=" + templeteId + ", createdTime=" + createdTime + ", periodDate=" + periodDate
+                + id + ", templateId=" + templateId + ", createdTime=" + createdTime + ", periodDate=" + periodDate
                 + ", fromBusitype=" + fromBusitype + ", fromObjId=" + fromObjId + ", status=" + status + "]";
     }
     

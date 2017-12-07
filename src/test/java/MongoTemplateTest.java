@@ -1,7 +1,3 @@
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-import org.bson.Document;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -51,25 +47,25 @@ public class MongoTemplateTest
 //        }
         
         
-        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-        Document rpt = new Document("id", 1)
-                .append("templeteId", 1)
-                .append("createdTime", now)
-                .append("periodDate", now)
-                .append("fromBusitype", 6)
-                .append("fromObjId", 181)
-                .append("status", 1);
-        
-        /**org.springframework.dao.InvalidDataAccessApiUsageException: No Persistent Entity information found for the class com.mongodb.BasicDBObject*/
-//        BasicDBObject rpt = new BasicDBObject("id", 1)
+//        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+//        Document rpt = new Document("id", 1)
 //                .append("templeteId", 1)
 //                .append("createdTime", now)
 //                .append("periodDate", now)
 //                .append("fromBusitype", 6)
 //                .append("fromObjId", 181)
 //                .append("status", 1);
-        
-        mtService.save(rpt);
+//        
+//        /*org.springframework.dao.InvalidDataAccessApiUsageException: No Persistent Entity information found for the class com.mongodb.BasicDBObject*/
+////        BasicDBObject rpt = new BasicDBObject("id", 1)
+////                .append("templeteId", 1)
+////                .append("createdTime", now)
+////                .append("periodDate", now)
+////                .append("fromBusitype", 6)
+////                .append("fromObjId", 181)
+////                .append("status", 1);
+//        
+//        mtService.save(rpt);
         
     }
     
