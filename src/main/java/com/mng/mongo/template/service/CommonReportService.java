@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import com.mng.domain.ReportRecordNewId;
@@ -176,18 +177,18 @@ public class CommonReportService extends CommonReportRepository
      * @throws Exception
      */
     public void updateReportRecord(ReportRecordNewId updateData) throws Exception {
-//        super.update(Query.query(Criteria.where("id").is(updateData.getId())), Update.update("periodDate", updateData.getPeriodDate()));
-//        Update update = Update.update("templateId", updateData.getTemplateId())
-//                            .set("createdTime", updateData.getCreatedTime())
-//                            .set("periodDate", updateData.getPeriodDate())
-//                            .set("fromBusitype", updateData.getFromBusitype())
-//                            .set("fromObjId", updateData.getFromObjId())
-//                            .set("status", updateData.getStatus());
-        
-
-//        super.update(Query.query(Criteria.where("id").is(updateData.getId())), update);
-        super.update(updateData);
-    }
+//      super.update(Query.query(Criteria.where("id").is(updateData.getId())), Update.update("periodDate", updateData.getPeriodDate()));
+      Update update = Update.update("templateId", updateData.getTemplateId())
+                          .set("createdTime", updateData.getCreatedTime())
+                          .set("periodDate", updateData.getPeriodDate())
+                          .set("fromBusitype", updateData.getFromBusitype())
+                          .set("fromObjId", updateData.getFromObjId())
+                          .set("status", updateData.getStatus())
+                          .set("columnInfo", updateData.getColumnInfo())
+                          .set("columnList", updateData.getColumnList());
+      super.update(Query.query(Criteria.where("id").is(updateData.getId())), update);
+//      super.update(updateData);
+  }
     
     /**
      * 

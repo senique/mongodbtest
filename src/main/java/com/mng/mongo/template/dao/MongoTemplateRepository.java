@@ -61,17 +61,22 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
         return (T) mongoTemplate.find(query, this.getEntityClass());
     }
     
+    /**
+     * TODO can save data
+     */
     @Override
-    public <T> void update(T entity) throws Exception {
-//      mongoTemplate.updateMulti(query, update, this.getEntityClass());
-//      mongoTemplate.updateFirst(query, update, this.getEntityClass());
-        
+    public <T> void update(T entity) throws Exception
+    {
         String exclude = "id";
         Query query = Query.query(Criteria.where(exclude).is(BeanUtils.getProperty(entity, exclude)));
         Update update = Update.fromDBObject(BeanConvertUtil.bean2DBObject(entity), exclude);
         
-//        mongoTemplate.upsert(query , update, this.getEntityClass());
-        mongoTemplate.updateFirst(query , update, this.getEntityClass());
+        mongoTemplate.updateFirst(query, update, this.getEntityClass());
+    }
+    
+    public <T> void update(Query query, Update update) throws Exception
+    {
+        mongoTemplate.updateFirst(query, update, this.getEntityClass());
     }
     
     @Override
