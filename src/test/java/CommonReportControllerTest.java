@@ -3,7 +3,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,15 +47,15 @@ public class CommonReportControllerTest
         List<Long> fromObjIds = new ArrayList<>();
 //        fromObjIds.add(101L);
 //        fromObjIds.add(108L);
-        for(int i = 0; i < 200; i++) {
-            fromObjIds.add(Long.valueOf(i+1));
-            
-            Date startPeriodDate = DateUtils.parseDate("2017-10-01 00:00:00", "yyyy-MM-dd hh:mm:ss");
-            Date endPeriodDate = DateUtils.parseDate("2017-11-30 23:00:00", "yyyy-MM-dd hh:mm:ss");
-            
-            AggregationResults<ReportRecordResult> aggrRet = mtService.aggregate(templateId, Arrays.asList(Long.valueOf(i+1)), startPeriodDate, endPeriodDate);
-        }
-/*        //DateUtils.parseDate("2017-12-05 23:00:00", "yyyy-MM-dd hh:mm:ss")
+//        for(int i = 0; i < 200; i++) {
+//            fromObjIds.add(Long.valueOf(i+1));
+//            
+//            Date startPeriodDate = DateUtils.parseDate("2017-10-01 00:00:00", "yyyy-MM-dd hh:mm:ss");
+//            Date endPeriodDate = DateUtils.parseDate("2017-11-30 23:00:00", "yyyy-MM-dd hh:mm:ss");
+//            
+//            AggregationResults<ReportRecordResult> aggrRet = mtService.aggregate(templateId, Arrays.asList(Long.valueOf(i+1)), startPeriodDate, endPeriodDate);
+//        }
+        //DateUtils.parseDate("2017-12-05 23:00:00", "yyyy-MM-dd hh:mm:ss")
         Date startPeriodDate = DateUtils.parseDate("2017-10-01 00:00:00", "yyyy-MM-dd hh:mm:ss");
         Date endPeriodDate = DateUtils.parseDate("2017-11-30 23:00:00", "yyyy-MM-dd hh:mm:ss");
         
@@ -82,7 +81,7 @@ public class CommonReportControllerTest
 //              tmp = ((DBObject)ret3.get(i));
 //              System.out.println( tmp.get("_id")+"|"+tmp.get("turnOver") );
 //        }
-        }*/
+        }
         sw.stop();
         System.out.println(sw.prettyPrint());
     }
