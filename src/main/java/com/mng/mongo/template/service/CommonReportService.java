@@ -21,7 +21,6 @@ import com.mng.mongo.template.repository.CommonReportRepository;
 import com.mng.utils.page.PageResult;
 import com.mng.utils.page.Pager;
 
-@SuppressWarnings("unchecked")
 @Service
 public class CommonReportService extends CommonReportRepository
 {

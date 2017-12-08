@@ -33,12 +33,13 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     
     /**
      * 特殊说明：
-     * 1. 如果已经存在主键，则会覆盖原有的数据；
+     * 1. 如果已经存在主键，则save(遍历列表,相当于upsert)会调用update更新记录，而insert(不用遍历，效率高)会忽略操作
      * 2. 如果entity结构改变，则会按照新的结构保存数据（Schema无关性）；
      */
     @Override
     public <T> void save(T entity) {
-        mongoTemplate.save(entity);;
+        mongoTemplate.save(entity);
+//        mongoTemplate.insert(entity);
     }
     
     @Override

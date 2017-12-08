@@ -10,7 +10,7 @@ public class ReportRecordNewId
 {
     @Id
     @GeneratedValue
-    private long id = 0L;
+    private long id;
 
     private Long templateId;
     
