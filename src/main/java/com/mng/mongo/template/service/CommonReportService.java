@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import com.mng.domain.ReportRecordNewId;
@@ -176,17 +175,7 @@ public class CommonReportService extends CommonReportRepository
      * @throws Exception
      */
     public void updateReportRecord(ReportRecordNewId updateData) throws Exception {
-//      super.update(Query.query(Criteria.where("id").is(updateData.getId())), Update.update("periodDate", updateData.getPeriodDate()));
-      Update update = Update.update("templateId", updateData.getTemplateId())
-                          .set("createdTime", updateData.getCreatedTime())
-                          .set("periodDate", updateData.getPeriodDate())
-                          .set("fromBusitype", updateData.getFromBusitype())
-                          .set("fromObjId", updateData.getFromObjId())
-                          .set("status", updateData.getStatus())
-                          .set("columnInfo", updateData.getColumnInfo())
-                          .set("columnList", updateData.getColumnList());
-      super.update(Query.query(Criteria.where("id").is(updateData.getId())), update);
-//      super.update(updateData);
+      super.update(updateData);
   }
     
     /**
@@ -247,14 +236,14 @@ public class CommonReportService extends CommonReportRepository
       AggregationOperation match = Aggregation.match(Criteria.where("templateId").is(21).and("fromObjId").in(Arrays.asList(101)));
       
 //      AggregationOperation match = Aggregation.match(Criteria.where("templateId").is(21).and("fromObjId").in(Arrays.asList(101)));
-//      AggregationOperation group = Aggregation.group("templateId").sum("fromBusitype").as("fromBusitype")
+//      AggregationOperation group = Aggregation.group("arrayIndex").sum("fromBusitype").as("fromBusitype")
 //                                                                  .sum("status").as("status")
 //                                                                  .sum("columnInfo").as("turnOver");
       
       /**
        * java.lang.NullPointerException
               at org.springframework.data.mapping.context.AbstractMappingContext.getPersistentPropertyPath(AbstractMappingContext.java:258)
-//      AggregationOperation group = Aggregation.group("templateId").sum("$columnInfo.turnOver").as("turnOver");
+//      AggregationOperation group = Aggregation.group("arrayIndex").sum("$columnInfo.turnOver").as("turnOver");
        */
       AggregationOperation group = Aggregation.group("arrayIndex").sum("columnList").as("sumValue");
       

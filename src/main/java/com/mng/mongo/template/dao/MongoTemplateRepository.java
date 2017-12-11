@@ -2,6 +2,7 @@ package com.mng.mongo.template.dao;
 
 import java.util.List;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,22 +63,16 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
         return (T) mongoTemplate.find(query, this.getEntityClass());
     }
     
-    /**
-     * TODO can save data
-     */
     @Override
-    public <T> void update(T entity) throws Exception
-    {
-        String exclude = "id";
-        Query query = Query.query(Criteria.where(exclude).is(BeanUtils.getProperty(entity, exclude)));
-        Update update = Update.fromDBObject(BeanConvertUtil.bean2DBObject(entity), exclude);
-        
-        mongoTemplate.updateFirst(query, update, this.getEntityClass());
-    }
-    
-    public <T> void update(Query query, Update update) throws Exception
-    {
-        mongoTemplate.updateFirst(query, update, this.getEntityClass());
+    public <T> void update(T entity) throws Exception {
+        String idLabel = "id";
+        String idValue = BeanUtils.getProperty(entity, idLabel);
+        if(StringUtils.isNotBlank(idValue)) {
+            //id value must be long for Query
+            Query query = Query.query(Criteria.where(idLabel).is(Long.valueOf(idValue)));
+            Update update = Update.fromDBObject(BeanConvertUtil.bean2DBObject(entity), idLabel);
+            mongoTemplate.updateFirst(query, update, this.getEntityClass());
+        }
     }
     
     @Override

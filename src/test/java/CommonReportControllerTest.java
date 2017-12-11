@@ -1,7 +1,5 @@
 
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -233,16 +231,21 @@ public class CommonReportControllerTest
   @Test
   public void updateTest() throws Exception{
   //ObjectId("5a211a6e39a7ed3888350c36")
-  ReportRecordNewId ret = mtService.findById(6);
+  Long id = 8L;
+  ReportRecordNewId ret = mtService.findById(id);
   if(null != ret)
   {
     System.out.println(ret.toString());
     BeanConvertUtil.bean2DBObject(ret);
     
-    Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-    ret.setPeriodDate(now);
-    ret.setTemplateId(21L);;
+//    Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
+    Date now = DateUtils.getMiPaasNowChinaTime();
+    ret.setCreatedTime(now);
     mtService.updateReportRecord(ret);
+    
+    ReportRecordNewId ret2 = mtService.findById(id);
+    System.out.println(ret2.getCreatedTime());
+    
 //    
 //    //根据id 和 fieldName累加
 //    mtService.increaseValueToFiled("5a211a6e39a7ed3888350c36", "status", 2L);
