@@ -22,7 +22,7 @@ public class FutureTest {
         public Long call() throws Exception {
             long tid = Thread.currentThread().getId();
 //            int sleepInt = new Random().nextInt(5);
-            int sleepInt = 5;
+            int sleepInt = 2;
             TimeUnit.SECONDS.sleep(sleepInt);
             System.out.printf("sleepInt[%d] Thread#%s : in call\n", sleepInt, tid);
             return tid;
@@ -57,6 +57,7 @@ public class FutureTest {
  
 //        System.out.println("before res.get(): "+sw.getTime());
 //        for(Future<Long> res : results){
+//        TimeUnit.SECONDS.sleep(2);
 //            System.out.println(res.get());/** future.get()会产生阻塞*/
 //        }
         
@@ -64,11 +65,12 @@ public class FutureTest {
             @Override
             public void run()
             {
-                System.out.println("es.submit(new Runnable(): "+sw.getTime());
+                System.out.println("es.submit(new Runnable() time: "+sw.getTime());
                 for(Future<Long> res : results){
                     try
                     {
-                        System.out.println("es.submit(new Runnable(): "+sw.getTime());
+                        TimeUnit.SECONDS.sleep(2);
+//                        System.out.println("es.submit(new Runnable() time: "+sw.getTime());
                         System.out.println(res.get());/** future.get()会产生阻塞*/
                     }
                     catch (InterruptedException | ExecutionException e)
@@ -82,9 +84,13 @@ public class FutureTest {
         //shutdown()方法之后，ExecutorService不会立即关闭，但是它不再接收新的任务，直到当前所有线程执行完成才会关闭
         es.shutdown();
         
-        sw.stop();
         System.out.println("es.shutdown, total time: "+sw.getTime());
         
+        TimeUnit.SECONDS.sleep(10);
+        System.out.println("System.exit(0) time: "+sw.getTime());
+        System.exit(0);
+        
+        sw.stop();
     }
  
 }
