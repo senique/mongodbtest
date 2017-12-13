@@ -228,28 +228,36 @@ public class CommonReportService extends CommonReportRepository
         return super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
     }
     
-    @Deprecated
-    public AggregationResults<ReportRecordResult> aggregateBak()
+    /* #统计嵌套文档元素（命令行OK，Java不OK）
+        db.reportRecordNewId.aggregate([
+            { $match: { "templateId" : 21, "fromObjId":{"$in" :[101,102,103,104,105,106,107,108]}}}, 
+            { $group: { _id: "$templateId",turnOver: {$sum: "$columnInfo.turnOver"}
+                                            ,orderCount: {$sum: "$columnInfo.orderCount"}
+                                            ,profit: {$sum: "$columnInfo.profit"}
+                                            ,count: {$sum: 1}
+                                                }}
+            ])
+    */
+    /**
+     * @deprecated #统计嵌套文档元素（命令行OK，Java不OK）
+     */
+    @Deprecated 
+    public AggregationResults<ReportRecordResult> aggregate()
     {
 //      AggregationOperation unwind = Aggregation.unwind("columnList").newUnwind().path("").arrayIndex("arrayIndex").preserveNullAndEmptyArrays();
-      AggregationOperation unwind = Aggregation.unwind("columnList", "arrayIndex");
+      AggregationOperation unwind = Aggregation.unwind("columnInfo", "arrayIndex");
       AggregationOperation match = Aggregation.match(Criteria.where("templateId").is(21).and("fromObjId").in(Arrays.asList(101)));
-      
-//      AggregationOperation match = Aggregation.match(Criteria.where("templateId").is(21).and("fromObjId").in(Arrays.asList(101)));
-//      AggregationOperation group = Aggregation.group("arrayIndex").sum("fromBusitype").as("fromBusitype")
-//                                                                  .sum("status").as("status")
-//                                                                  .sum("columnInfo").as("turnOver");
       
       /**
        * java.lang.NullPointerException
               at org.springframework.data.mapping.context.AbstractMappingContext.getPersistentPropertyPath(AbstractMappingContext.java:258)
 //      AggregationOperation group = Aggregation.group("arrayIndex").sum("$columnInfo.turnOver").as("turnOver");
        */
-      AggregationOperation group = Aggregation.group("arrayIndex").sum("columnList").as("sumValue");
+      AggregationOperation group = Aggregation.group("templateId").sum("columnInfo.turnOver").as("turnOver");
       
-      
-      Aggregation aggregation = Aggregation.newAggregation( unwind, match, group);
+//      Aggregation aggregation = Aggregation.newAggregation(unwind, match, group);
 //      Aggregation aggregation = Aggregation.newAggregation(match, group);
+      Aggregation aggregation = Aggregation.newAggregation(group);
 //      AggregationResults<Object> result = super.aggregate(aggregation, ReportRecordNewId.class, Object.class);
       AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
       return result;
@@ -317,31 +325,5 @@ public class CommonReportService extends CommonReportRepository
     {
         super.renameFiled(id, filedName, newFiledName);
     }
-    
-    
-/*    db.reportRecordNewId.aggregate([
-        { $match: { "templeteId" : 21, "fromObjId":{"$in" :[101,102,103,104,105,106,107,108]}}}, 
-        { $group: { _id: "$templeteId",turnOver: {$sum: "$columnInfo.turnOver"}
-                                    ,orderCount: {$sum: "$columnInfo.orderCount"}
-                                    ,profit: {$sum: "$columnInfo.profit"}
-                                    ,count: {$sum: 1}
-                                    }}
-        ])*/
-    public AggregationResults<ReportRecordResult> aggregate()
-    {
-        AggregationOperation match = Aggregation.match(Criteria.where("templeteId").is(21).and("fromObjId").in(Arrays.asList(101)));
-        AggregationOperation group = Aggregation.group("templeteId").sum("fromBusitype").as("fromBusitype")
-                                                                    .sum("status").as("status");
-//        /**
-//         * java.lang.NullPointerException
-//                at org.springframework.data.mapping.context.AbstractMappingContext.getPersistentPropertyPath(AbstractMappingContext.java:258)
-//         */
-//        AggregationOperation group = Aggregation.group("templeteId").sum("columnInfo.turnOver").as("turnOver");
-        Aggregation aggregation = Aggregation.newAggregation(match, group);
-        AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
-        
-        return result;
-    }
-
     
 }

@@ -58,6 +58,8 @@ public class CommonReportControllerTest
         Date endPeriodDate = DateUtils.parseDate("2017-11-30 23:00:00", "yyyy-MM-dd hh:mm:ss");
         
         AggregationResults<ReportRecordResult> aggrRet = mtService.aggregate(templateId, fromObjIds, startPeriodDate, endPeriodDate);
+        //        AggregationResults<ReportRecordResult> aggrRet = mtService.aggregate();
+        
         if(null != aggrRet) {
 //          System.out.println( aggrRet.toString() );
 //          System.out.println( aggrRet.getRawResults() );
@@ -96,7 +98,7 @@ public class CommonReportControllerTest
         StopWatch sw = new StopWatch();
         sw.start("CommonReportControllerTest.prepareDataTest() ");
         
-        for(int i = 0; i < 100000; i++) {
+        for(int i = 0; i < 2; i++) {
             rdDate = DateUtils.getDateBeginTime(DateUtils.dateAddDays(now,  new Random().nextInt(100)-100));
             
 //            rpt.setTemplateId(21L + new Random().nextInt(3));
