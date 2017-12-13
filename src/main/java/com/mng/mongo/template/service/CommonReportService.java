@@ -76,11 +76,7 @@ public class CommonReportService extends CommonReportRepository
      * @createtime ： 2017年12月4日 下午6:10:45
      * @description 按条件查询多条数据（条件是map，不能包含时间参数，map的value值必须和数据库类型相对应）
      * @since version 初始于版本 v0.0.1 
-     * @param templateId
-     * @param fromObjId
-     * @param startPeriodDate
-     * @param endPeriodDate
-     * @param addremark
+     * @param para
      * @return
      * @throws Exception
      */
@@ -123,7 +119,7 @@ public class CommonReportService extends CommonReportRepository
      * @description 按条件查询多条数据,带分页条件（分页从0开始）
      * @since version 初始于版本 v0.0.1 
      * @param templateId
-     * @param fromObjId
+     * @param fromObjIds
      * @param startPeriodDate
      * @param endPeriodDate
      * @param addremark
