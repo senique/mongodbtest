@@ -180,8 +180,8 @@ public class CommonReportControllerTest
     @Test
     public void findByMapTest() throws Exception{
         Map<String, Object> para = new HashMap<>();
-//        para.put("templateId", 21);
-        para.put("id", 4069);
+        para.put("templateId", 21);
+//        para.put("id", 4069);
         ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
         if(null != ret)
         {

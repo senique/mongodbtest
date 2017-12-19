@@ -7,7 +7,12 @@ import org.springframework.data.annotation.Id;
 //@Entity
 public class Breed
 {
+    private String id;
     
+    private String name;
+    
+    private Double weight;
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -21,8 +26,6 @@ public class Breed
         this.id = id;
     }
     
-    private String id;
-    
     public String getName()
     {
         return name;
@@ -33,6 +36,13 @@ public class Breed
         this.name = name;
     }
     
-    private String name;
-    
+    public Double getWeight()
+    {
+        return weight;
+    }
+
+    public void setWeight(Double weight)
+    {
+        this.weight = weight;
+    }
 }

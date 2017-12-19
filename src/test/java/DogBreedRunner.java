@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,6 +23,7 @@ import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
+import org.junit.Test;
 import com.mng.domain.Breed;
 import com.mng.domain.Dog;
 import com.mng.utils.date.DateUtils;
@@ -122,5 +124,18 @@ public class DogBreedRunner
         logger.infof("org.apache.commons.lang.time.StopWatch: " + sw.getTime());
 
 	}
+   
+    @Test
+    public void optionalTest()
+    {
+        Dog o = new Dog();
+        Breed top = new Breed();
+//        top.setWeight(100D);
+//        o.setBreed(top );
+        Breed test = Optional.ofNullable(o.getBreed()).orElseGet(()->new Breed());
+//        double testd = Optional.ofNullable(test.getWeight()).orElseGet(()->0D);
+        double testd = Optional.ofNullable(Optional.ofNullable(o.getBreed()).orElseGet(()->new Breed()).getWeight()).orElseGet(()->0D);
+        System.out.println(testd);
+    }
 
 }

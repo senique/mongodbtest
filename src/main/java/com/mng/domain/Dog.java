@@ -9,6 +9,14 @@ import org.springframework.data.annotation.Id;
 //@Entity
 public class Dog
 {
+    private Long id;
+    
+    private String name;
+
+    private Breed breed;
+    
+    private String remark;
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "dog")
     @TableGenerator(
@@ -27,33 +35,27 @@ public class Dog
         this.id = id;
     }
     
-    private Long id;
-    
     public String getName()
     {
         return name;
     }
-    
+
     public void setName(String name)
     {
         this.name = name;
     }
-    
-    private String name;
     
     @ManyToOne
     public Breed getBreed()
     {
         return breed;
     }
-    
+
     public void setBreed(Breed breed)
     {
         this.breed = breed;
     }
-    
-    private Breed breed;
-    
+
     public String getRemark()
     {
         return remark;
@@ -63,5 +65,4 @@ public class Dog
     {
         this.remark = remark;
     }
-    private String remark;
 }
