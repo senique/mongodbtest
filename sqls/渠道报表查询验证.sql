@@ -7,13 +7,12 @@ SELECT * FROM vm_report.report_templete WHERE id = '11';
 #SELECT * FROM vm_report.report_record;
 #SELECT * FROM vm_report.report_record_column;
 
-SELECT * FROM vm_report.report_templete;
-SELECT * FROM vm_report.report_templete_column;
 
 SELECT * FROM vm_report.row_generator;
 SELECT * FROM vm_report.row_column_generator_relation;
 SELECT * FROM vm_report.column_generator;
 SELECT * FROM vm_report.report_templete;
+SELECT * FROM vm_report.report_templete_column;
 
 SELECT * FROM vm_report.report_record t;
 SELECT * FROM vm_report.report_record t WHERE t.from_busitype = '11' and t.created_time >DATE_SUB(NOW(),INTERVAL 1 DAY) ORDER BY t.created_time desc;
