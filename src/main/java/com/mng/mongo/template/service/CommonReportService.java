@@ -247,10 +247,11 @@ public class CommonReportService extends CommonReportRepository
       /**
        * java.lang.NullPointerException
               at org.springframework.data.mapping.context.AbstractMappingContext.getPersistentPropertyPath(AbstractMappingContext.java:258)
-//      AggregationOperation group = Aggregation.group("arrayIndex").sum("$columnInfo.turnOver").as("turnOver");
+//      AggregationOperation group = Aggregation.group("templateId").sum("$columnInfo.turnOver").as("turnOver");
        */
-      AggregationOperation group = Aggregation.group("templateId").sum("columnInfo.turnOver").as("turnOver");
-      
+//      AggregationOperation group = Aggregation.group("templateId").sum("columnList").as("sumValue");
+    AggregationOperation group = Aggregation.group("templateId").sum("columnInfo.turnOver").as("turnOver");
+
 //      Aggregation aggregation = Aggregation.newAggregation(unwind, match, group);
 //      Aggregation aggregation = Aggregation.newAggregation(match, group);
       Aggregation aggregation = Aggregation.newAggregation(group);

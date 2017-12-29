@@ -179,6 +179,19 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     }
     
     @SuppressWarnings("rawtypes")
+    /**
+     * 
+     * @author：luocj
+     * @createtime ： 2017年12月29日 上午11:39:48
+     * @description 聚合函数 限制mongoV3.4
+     *              Changed in version 3.6: MongoDB 3.6 removes the use of aggregate command without the cursor option 
+     *              unless the command includes the explain option. 
+     * @since version 初始于版本 v0.0.1 
+     * @param aggregation
+     * @param inputType
+     * @param outputType
+     * @return
+     */
     public  <T> T aggregate(Aggregation aggregation, Class inputType, Class outputType)
     {
         return (T) mongoTemplate.aggregate(aggregation, inputType, outputType);

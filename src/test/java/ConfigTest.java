@@ -1,12 +1,8 @@
 
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import org.springframework.util.StopWatch;
-import com.mng.utils.date.DateUtils;
 
 public class ConfigTest
 {
@@ -33,10 +29,12 @@ public class ConfigTest
 //        System.out.println(rdMap.toString());
         
         
-        Date beginDate = DateUtils.parseDate("2015-01-01", "yyyy-MM-dd");
+       /* 
+        Date beginDate = DateUtils.parseDate("2016-10-01", "yyyy-MM-dd");
         Date endDate = DateUtils.parseDate("2017-12-31", "yyyy-MM-dd");
         
-        long count = DateUtils.monthDiff(beginDate, endDate);
+//        long count = DateUtils.monthDiff(beginDate, endDate);
+        long count = DateUtils.dayDiff(beginDate, endDate);
         System.out.println(count);
 
         StopWatch sw = new StopWatch();
@@ -46,10 +44,14 @@ public class ConfigTest
           sw.start("test "+i);
 //          System.out.println("["+i+"]"+DateUtils.dateAddMonth(beginDate, i));
 //          System.out.println("["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss"));
-          TimeUnit.SECONDS.sleep(1);
+//          TimeUnit.SECONDS.sleep(1);
           sw.stop();
-          System.out.println(sw.getTotalTimeMillis()+"["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss")+"-"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i+1), "yyyy-MM-dd HH:mm:ss"));
+//          System.out.println(sw.getTotalTimeMillis()+"["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss")+"-"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i+1), "yyyy-MM-dd HH:mm:ss"));
+//          System.out.println(sw.getTotalTimeMillis()+"["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss")+"-"+DateUtils.format( DateUtils.getMonthEndTime(DateUtils.dateAddMonth(beginDate, i)), "yyyy-MM-dd HH:mm:ss"));
+          System.out.println(DateUtils.format(DateUtils.dateAddDays(beginDate, i), "yyyy-MM-dd"));
+          
         }
+        */
         
         
 
