@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import com.mng.domain.ReportRecordNewId;
+import com.mng.domain.ReportRecordNew;
 import com.mng.domain.ReportRecordResult;
 import com.mng.mongo.template.repository.CommonReportRepository;
 import com.mng.utils.page.PageResult;
@@ -32,7 +32,7 @@ public class CommonReportService extends CommonReportRepository
      * @since version 初始于版本 v0.0.1 
      * @param reportRecord
      */
-    public void saveReportRecord(ReportRecordNewId reportRecord) {
+    public void saveReportRecord(ReportRecordNew reportRecord) {
         super.save(reportRecord);
     }
     
@@ -45,7 +45,7 @@ public class CommonReportService extends CommonReportRepository
      * @param id
      * @throws Exception
      */
-    public ReportRecordNewId findById(Long id) throws Exception {
+    public ReportRecordNew findById(Long id) throws Exception {
         return super.findById(id);
     }
     
@@ -59,7 +59,7 @@ public class CommonReportService extends CommonReportRepository
      * @return
      * @throws Exception
      */
-    public ReportRecordNewId findOneReportRecordByMap(Map<String, Object> para) throws Exception {
+    public ReportRecordNew findOneReportRecordByMap(Map<String, Object> para) throws Exception {
         Query query = new Query();
         if(null == para || para.size()==0) {
             return null;
@@ -80,7 +80,7 @@ public class CommonReportService extends CommonReportRepository
      * @return
      * @throws Exception
      */
-    public List<ReportRecordNewId> findReportRecordListByMap(Map<String, Object> para) throws Exception {
+    public List<ReportRecordNew> findReportRecordListByMap(Map<String, Object> para) throws Exception {
         Query query = new Query();
         if(null == para || para.size()==0) {
             return null;
@@ -105,7 +105,7 @@ public class CommonReportService extends CommonReportRepository
      * @return
      * @throws Exception
      */
-    public List<ReportRecordNewId> findReportRecordListByCondition(Long templateId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark) throws Exception {
+    public List<ReportRecordNew> findReportRecordListByCondition(Long templateId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark) throws Exception {
         Query query = new Query();
         
         dealSingleParameter(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark, query);
@@ -127,7 +127,7 @@ public class CommonReportService extends CommonReportRepository
      * @return
      * @throws Exception
      */
-    public PageResult<ReportRecordNewId> findReportRecordListByCondition(Long templateId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark, Pager pager) throws Exception {
+    public PageResult<ReportRecordNew> findReportRecordListByCondition(Long templateId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate, String addremark, Pager pager) throws Exception {
         Query query = new Query();
         
         dealSingleParameter(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark, query);
@@ -170,7 +170,7 @@ public class CommonReportService extends CommonReportRepository
      * @param updateData
      * @throws Exception
      */
-    public void updateReportRecord(ReportRecordNewId updateData) throws Exception {
+    public void updateReportRecord(ReportRecordNew updateData) throws Exception {
       super.update(updateData);
   }
     
@@ -183,7 +183,7 @@ public class CommonReportService extends CommonReportRepository
      * @param data
      * @throws Exception
      */
-    public <T> void deleteReportRecord(ReportRecordNewId data) throws Exception {
+    public <T> void deleteReportRecord(ReportRecordNew data) throws Exception {
         super.delete(data);
     }
 
@@ -221,11 +221,11 @@ public class CommonReportService extends CommonReportRepository
         
         Aggregation aggregation = Aggregation.newAggregation( unwind, match, group);
         
-        return super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
+        return super.aggregate(aggregation, ReportRecordNew.class, ReportRecordResult.class);
     }
     
     /* #统计嵌套文档元素（命令行OK，Java不OK）
-        db.reportRecordNewId.aggregate([
+        db.ReportRecordNew.aggregate([
             { $match: { "templateId" : 21, "fromObjId":{"$in" :[101,102,103,104,105,106,107,108]}}}, 
             { $group: { _id: "$templateId",turnOver: {$sum: "$columnInfo.turnOver"}
                                             ,orderCount: {$sum: "$columnInfo.orderCount"}
@@ -255,8 +255,8 @@ public class CommonReportService extends CommonReportRepository
 //      Aggregation aggregation = Aggregation.newAggregation(unwind, match, group);
 //      Aggregation aggregation = Aggregation.newAggregation(match, group);
       Aggregation aggregation = Aggregation.newAggregation(group);
-//      AggregationResults<Object> result = super.aggregate(aggregation, ReportRecordNewId.class, Object.class);
-      AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNewId.class, ReportRecordResult.class);
+//      AggregationResults<Object> result = super.aggregate(aggregation, ReportRecordNew.class, Object.class);
+      AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNew.class, ReportRecordResult.class);
       return result;
   }
     

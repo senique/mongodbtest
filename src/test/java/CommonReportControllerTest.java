@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.util.StopWatch;
-import com.mng.domain.ReportRecordNewId;
+import com.mng.domain.ReportRecordNew;
 import com.mng.domain.ReportRecordResult;
 import com.mng.mongo.template.service.CommonReportService;
 import com.mng.utils.BeanConvertUtil;
@@ -92,13 +92,13 @@ public class CommonReportControllerTest
 //        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(8)));
         Date now = DateUtils.getMiPaasNowChinaTime();
         Date rdDate = DateUtils.getDateBeginTime(now);
-        ReportRecordNewId rpt = new ReportRecordNewId();
+        ReportRecordNew rpt = new ReportRecordNew();
 //        rpt.setId(BigInteger.valueOf(101));
         
         StopWatch sw = new StopWatch();
         sw.start("CommonReportControllerTest.prepareDataTest() ");
         
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 1000; i++) {
             rdDate = DateUtils.getDateBeginTime(DateUtils.dateAddDays(now,  new Random().nextInt(100)-100));
             
 //            rpt.setTemplateId(21L + new Random().nextInt(3));
@@ -153,7 +153,7 @@ public class CommonReportControllerTest
         
 //        Map<String, Object> para = new HashMap<>();
 //        para.put("fromObjId", now.getTime());
-//        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+//        ReportRecordNew ret = mtService.findOneReportRecordByMap(para);
 //        if(null != ret)
 //        {
 //          System.out.println(ret.toString());
@@ -169,8 +169,8 @@ public class CommonReportControllerTest
     public void findByIdTest() throws Exception{
         //ObjectId("5a210a3639a7ed052c4c4898")
         //ObjectId("5a211d2539a7ed2a08cdf0ef")
-//        ReportRecordNewId ret = mtService.findById(6190);
-        ReportRecordNewId ret = mtService.findById(6190L);
+//        ReportRecordNew ret = mtService.findById(6190);
+        ReportRecordNew ret = mtService.findById(6190L);
         if(null != ret)
         {
           System.out.println(ret.toString());
@@ -182,13 +182,13 @@ public class CommonReportControllerTest
         Map<String, Object> para = new HashMap<>();
         para.put("templateId", 21);
 //        para.put("id", 4069);
-        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+        ReportRecordNew ret = mtService.findOneReportRecordByMap(para);
         if(null != ret)
         {
           System.out.println(ret.toString());
         }
         
-        List<ReportRecordNewId> retList = mtService.findReportRecordListByMap(para);
+        List<ReportRecordNew> retList = mtService.findReportRecordListByMap(para);
         if(null != retList)
         {
           System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
@@ -207,7 +207,7 @@ public class CommonReportControllerTest
         Date startPeriodDate = DateUtils.parseDate("2017-10-01 00:00:00", "yyyy-MM-dd hh:mm:ss");
         Date endPeriodDate = DateUtils.parseDate("2017-11-30 23:00:00", "yyyy-MM-dd hh:mm:ss");
         String addremark = null;//支持"模糊查询"
-        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark );
+        List<ReportRecordNew> retList = mtService.findReportRecordListByCondition(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark );
         if(null != retList) {
             System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
         }
@@ -223,7 +223,7 @@ public class CommonReportControllerTest
           Date endPeriodDate = null;
           String addremark = null;//支持"模糊查询"
           Pager pager = new Pager(6, 0);
-          PageResult<ReportRecordNewId> pageRet = mtService.findReportRecordListByCondition(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark, pager );
+          PageResult<ReportRecordNew> pageRet = mtService.findReportRecordListByCondition(templateId, fromObjIds, startPeriodDate, endPeriodDate, addremark, pager );
           if(null != pageRet) {
               System.out.println( pageRet.toString() );
               System.out.println( ArrayUtils.toString(pageRet.getList().stream().map(r->r.toString()).toArray()) );
@@ -234,7 +234,7 @@ public class CommonReportControllerTest
   public void updateTest() throws Exception{
   //ObjectId("5a211a6e39a7ed3888350c36")
   Long id = 8L;
-  ReportRecordNewId ret = mtService.findById(id);
+  ReportRecordNew ret = mtService.findById(id);
   if(null != ret)
   {
     System.out.println(ret.toString());
@@ -245,7 +245,7 @@ public class CommonReportControllerTest
     ret.setCreatedTime(now);
     mtService.updateReportRecord(ret);
     
-    ReportRecordNewId ret2 = mtService.findById(id);
+    ReportRecordNew ret2 = mtService.findById(id);
     System.out.println(ret2.getCreatedTime());
     
 //    
@@ -258,12 +258,12 @@ public class CommonReportControllerTest
 //  public void deleteTest() throws Exception{
 //     //ObjectId("5a213c9a39a7ed0744ee74c8")
 //      String tedtId = "5a213c9a39a7ed0744ee74c8";
-//      ReportRecordNewId ret = mtService.findById(tedtId);
+//      ReportRecordNew ret = mtService.findById(tedtId);
 //      if(null != ret)
 //      { 
 //        System.out.println(ret.toString());
 //        mtService.deleteReportRecord(ret);
-//        ReportRecordNewId rettmp = mtService.findById(tedtId);
+//        ReportRecordNew rettmp = mtService.findById(tedtId);
 //        
 //        ret.setFromObjId(20L);
 //        ret.setFromBusitype(20);
@@ -279,7 +279,7 @@ public class CommonReportControllerTest
 //  @Test
 //  public void addOrDeleteOrRenameFiledTest() throws Exception{
 //      //ObjectId("5a211a6e39a7ed3888350c36")
-//      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+//      ReportRecordNew ret = mtService.findById("5a211a6e39a7ed3888350c36");
 //      if(null != ret)
 //      {
 //        System.out.println(ret.toString());

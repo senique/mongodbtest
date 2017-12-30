@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.mng.domain.ReportRecord;
-import com.mng.domain.ReportRecordNewId;
+import com.mng.domain.ReportRecordNew;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -161,7 +161,7 @@ public class MongoDBFullFeaturedTest
 //                .append("status", 1);
        
       //TODO can't auto generate id? and store
-      ReportRecordNewId rpt = new ReportRecordNewId();
+      ReportRecordNew rpt = new ReportRecordNew();
 //      rpt.setName("abc");
       rpt.setTemplateId(1L);
       rpt.setCreatedTime(now);
@@ -237,9 +237,9 @@ public class MongoDBFullFeaturedTest
 //        
 //        collection.insert(rpt);
         
-        String command = "db.reportRecordNewId.aggregate([ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'fromBusitype' : { '$sum' : '$fromBusitype'} , 'status' : { '$sum' : '$status'}}}])";
+        String command = "db.ReportRecordNew.aggregate([ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'fromBusitype' : { '$sum' : '$fromBusitype'} , 'status' : { '$sum' : '$status'}}}])";
         CommandResult cret = db.command(command);
-        //{ "ok" : 0.0 , "errmsg" : "no such command: '{ 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}', bad cmd: '{ { 'aggregate' : 'reportRecordNewId' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}: true }'" , "code" : 59 , "codeName" : "CommandNotFound"}
+        //{ "ok" : 0.0 , "errmsg" : "no such command: '{ 'aggregate' : 'ReportRecordNew' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}', bad cmd: '{ { 'aggregate' : 'ReportRecordNew' , 'pipeline' : [ { '$match' : { 'templateId' : 21 , 'fromObjId' : { '$in' : [ 101]}}} , { '$group' : { '_id' : '$templateId' , 'turnOver' : { '$sum' : '$fromBusitype'}}}]}: true }'" , "code" : 59 , "codeName" : "CommandNotFound"}
         
         mongo.close();
     }

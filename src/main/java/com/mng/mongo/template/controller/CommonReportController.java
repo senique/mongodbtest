@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.mng.domain.ReportRecordNewId;
+import com.mng.domain.ReportRecordNew;
 import com.mng.mongo.template.service.CommonReportService;
 import com.mng.utils.page.PageResult;
 import com.mng.utils.page.Pager;
@@ -31,7 +31,7 @@ public class CommonReportController
 //    @Test
 //    public void saveTest() throws Exception{
 //        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        ReportRecordNewId rpt = new ReportRecordNewId();
+//        ReportRecordNew rpt = new ReportRecordNew();
 ////            rpt.setName("abc"); 
 ////        rpt.setId(BigInteger.valueOf(101));
 //        rpt.setTempleteId(22L);
@@ -44,7 +44,7 @@ public class CommonReportController
 //        
 //        Map<String, Object> para = new HashMap<>();
 //        para.put("fromObjId", now.getTime());
-//        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+//        ReportRecordNew ret = mtService.findOneReportRecordByMap(para);
 //        if(null != ret)
 //        {
 //          System.out.println(ret.toString());
@@ -55,7 +55,7 @@ public class CommonReportController
 //    public void findByIdTest() throws Exception{
 //        //ObjectId("5a210a3639a7ed052c4c4898")
 //        //ObjectId("5a211d2539a7ed2a08cdf0ef")
-//        ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+//        ReportRecordNew ret = mtService.findById("5a211a6e39a7ed3888350c36");
 //        if(null != ret)
 //        {
 //          System.out.println(ret.toString());
@@ -66,13 +66,13 @@ public class CommonReportController
 //    public void findByMapTest() throws Exception{
 //        Map<String, Object> para = new HashMap<>();
 //        para.put("templeteId", 11);
-//        ReportRecordNewId ret = mtService.findOneReportRecordByMap(para);
+//        ReportRecordNew ret = mtService.findOneReportRecordByMap(para);
 //        if(null != ret)
 //        {
 //          System.out.println(ret.toString());
 //        }
 //        
-//        List<ReportRecordNewId> retList = mtService.findReportRecordListByMap(para);
+//        List<ReportRecordNew> retList = mtService.findReportRecordListByMap(para);
 //        if(null != retList)
 //        {
 //          System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
@@ -87,7 +87,7 @@ public class CommonReportController
 //        Date startPeriodDate = null;
 //        Date endPeriodDate = null;
 //        String addremark = null;//支持"模糊查询"
-//        List<ReportRecordNewId> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
+//        List<ReportRecordNew> retList = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark );
 //        if(null != retList) {
 //            System.out.println( ArrayUtils.toString(retList.stream().map(r->r.toString()).toArray()) );
 //        }
@@ -101,7 +101,7 @@ public class CommonReportController
 //          Date endPeriodDate = null;
 //          String addremark = null;//支持"模糊查询"
 //          Pager pager = new Pager(6, 0);
-//          PageResult<ReportRecordNewId> pageRet = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark, pager );
+//          PageResult<ReportRecordNew> pageRet = mtService.findReportRecordListByCondition(templateId, fromObjId, startPeriodDate, endPeriodDate, addremark, pager );
 //          if(null != pageRet) {
 //              System.out.println( pageRet.toString() );
 //              System.out.println( ArrayUtils.toString(pageRet.getList().stream().map(r->r.toString()).toArray()) );
@@ -111,7 +111,7 @@ public class CommonReportController
 //  @Test
 //  public void updateTest() throws Exception{
 //      //ObjectId("5a211a6e39a7ed3888350c36")
-//      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+//      ReportRecordNew ret = mtService.findById("5a211a6e39a7ed3888350c36");
 //      if(null != ret)
 //      {
 //        System.out.println(ret.toString());
@@ -128,12 +128,12 @@ public class CommonReportController
 //  public void deleteTest() throws Exception{
 //     //ObjectId("5a213c9a39a7ed0744ee74c8")
 //      String tedtId = "5a213c9a39a7ed0744ee74c8";
-//      ReportRecordNewId ret = mtService.findById(tedtId);
+//      ReportRecordNew ret = mtService.findById(tedtId);
 //      if(null != ret)
 //      { 
 //        System.out.println(ret.toString());
 //        mtService.deleteReportRecord(ret);
-//        ReportRecordNewId rettmp = mtService.findById(tedtId);
+//        ReportRecordNew rettmp = mtService.findById(tedtId);
 //        
 //        ret.setFromObjId(20L);
 //        ret.setFromBusitype(20);
@@ -149,7 +149,7 @@ public class CommonReportController
 //  @Test
 //  public void addOrDeleteOrRenameFiledTest() throws Exception{
 //      //ObjectId("5a211a6e39a7ed3888350c36")
-//      ReportRecordNewId ret = mtService.findById("5a211a6e39a7ed3888350c36");
+//      ReportRecordNew ret = mtService.findById("5a211a6e39a7ed3888350c36");
 //      if(null != ret)
 //      {
 //        System.out.println(ret.toString());

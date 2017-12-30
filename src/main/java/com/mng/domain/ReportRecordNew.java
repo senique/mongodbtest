@@ -6,7 +6,7 @@ import com.mng.utils.sequence.GeneratedValue;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
-public class ReportRecordNewId
+public class ReportRecordNew
 {
     @Id
     @GeneratedValue
@@ -56,12 +56,12 @@ public class ReportRecordNewId
      */
     private BasicDBList columnList;
     
-    public ReportRecordNewId()
+    public ReportRecordNew()
     {
         super();
     }
     
-    public ReportRecordNewId(Long templateId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
+    public ReportRecordNew(Long templateId, Date periodDate, Integer fromBusitype, Long fromObjid, Byte status)
     {
         super();
         this.templateId = templateId;

@@ -25,7 +25,7 @@ public class MongoTemplateTest
     @Test
     public void mtTest() throws Exception{
 //        Date now = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(0)));
-//        ReportRecordNewId rpt = new ReportRecordNewId();
+//        ReportRecordNew rpt = new ReportRecordNew();
 //        //      rpt.setName("abc");
 //        rpt.setTempleteId(11L);
 //        rpt.setCreatedTime(now);
@@ -37,10 +37,10 @@ public class MongoTemplateTest
         
 //        Map<String, String> para = new HashMap<>();
 //        para.put("templeteId", "11");
-////        ReportRecordNewId ret = mtService.findOne(para);
+////        ReportRecordNew ret = mtService.findOne(para);
 ////        ObjectId("5a210a3639a7ed052c4c4898") fromBusitype=888
 ////        ObjectId("5a21098939a7ed1b7ce8d2d8") fromBusitype=666
-//        ReportRecordNewId ret = mtService.findById("101");
+//        ReportRecordNew ret = mtService.findById("101");
 //        if(null != ret)
 //        {
 //            System.out.println(ret.toString());
