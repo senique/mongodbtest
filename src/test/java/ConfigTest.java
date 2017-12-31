@@ -1,13 +1,25 @@
 
 
+import com.mng.mongo.template.service.CommonReportService;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.text.ParseException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 public class ConfigTest
 {
-    
-    public static void main(String[] args) throws NamingException, ParseException, InterruptedException
+    private static ApplicationContext app;
+    @BeforeClass
+    public static void initSpring() {
+        app = new ClassPathXmlApplicationContext(new String[] { "classpath:spring/framework-context.xml", "classpath:spring/mongodb.xml" });
+    }
+
+    @Test
+    public void randomTest() throws NamingException, ParseException, InterruptedException
     {
 //        # javax.naming.NoInitialContextException: Need to specify class name in environment or system property, 
 //        #or as an applet parameter, or in an application resource file:  java.naming.factory.initial
@@ -28,33 +40,6 @@ public class ConfigTest
 //        }
 //        System.out.println(rdMap.toString());
         
-        
-       /* 
-        Date beginDate = DateUtils.parseDate("2016-10-01", "yyyy-MM-dd");
-        Date endDate = DateUtils.parseDate("2017-12-31", "yyyy-MM-dd");
-        
-//        long count = DateUtils.monthDiff(beginDate, endDate);
-        long count = DateUtils.dayDiff(beginDate, endDate);
-        System.out.println(count);
-
-        StopWatch sw = new StopWatch();
-        
-        for(int i = 0; i <= count; i++)
-        {
-          sw.start("test "+i);
-//          System.out.println("["+i+"]"+DateUtils.dateAddMonth(beginDate, i));
-//          System.out.println("["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss"));
-//          TimeUnit.SECONDS.sleep(1);
-          sw.stop();
-//          System.out.println(sw.getTotalTimeMillis()+"["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss")+"-"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i+1), "yyyy-MM-dd HH:mm:ss"));
-//          System.out.println(sw.getTotalTimeMillis()+"["+i+"]"+DateUtils.format(DateUtils.dateAddMonth(beginDate, i), "yyyy-MM-dd HH:mm:ss")+"-"+DateUtils.format( DateUtils.getMonthEndTime(DateUtils.dateAddMonth(beginDate, i)), "yyyy-MM-dd HH:mm:ss"));
-          System.out.println(DateUtils.format(DateUtils.dateAddDays(beginDate, i), "yyyy-MM-dd"));
-          
-        }
-        */
-        
-        
-
 
     }
     

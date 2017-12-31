@@ -98,11 +98,11 @@ public class CommonReportControllerTest
         StopWatch sw = new StopWatch();
         sw.start("CommonReportControllerTest.prepareDataTest() ");
         
-        for(int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 10; i++) {
             rdDate = DateUtils.getDateBeginTime(DateUtils.dateAddDays(now,  new Random().nextInt(100)-100));
             
 //            rpt.setTemplateId(21L + new Random().nextInt(3));
-            rpt.setTemplateId(21L);
+            rpt.setTemplateId(21L+ new Random().nextInt(3));
             rpt.setCreatedTime(now);
             rpt.setPeriodDate(rdDate);
             rpt.setFromBusitype(11);
