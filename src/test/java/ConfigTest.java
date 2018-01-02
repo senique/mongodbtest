@@ -1,5 +1,6 @@
 
 
+import com.mng.domain.ReportRecord;
 import com.mng.mongo.template.service.CommonReportService;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +26,13 @@ public class ConfigTest
 //        #or as an applet parameter, or in an application resource file:  java.naming.factory.initial
         InitialContext ctx = new InitialContext();
         System.out.println(ctx);
-        
+
+        System.out.println(ReportRecord.class.getSimpleName().toLowerCase().substring(0, 1)+ReportRecord.class.getSimpleName().substring(1));
+        System.out.println(ReportRecord.class.getCanonicalName());
+        System.out.println("ReportRecord".replaceFirst("a", "\\\\a")); //\abac
+        System.out.println("abac".replaceAll("a", "\\\\a")); //\ab\ac
+        System.out.println("abac".replaceFirst("a", "\\\\a")); //\abac
+
 ////        Map<Integer, Integer> rdMap = new HashMap<Integer, Integer>();
 //        Map<Integer, Integer> rdMap = new HashMap<Integer, Integer>();
 //        for(int i = 0; i < 1000; i++) {

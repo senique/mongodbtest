@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import com.mng.domain.MapReduceResult;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -259,7 +262,41 @@ public class CommonReportService extends CommonReportRepository
       AggregationResults<ReportRecordResult> result = super.aggregate(aggregation, ReportRecordNew.class, ReportRecordResult.class);
       return result;
   }
-    
+
+
+    /**
+     *
+     * @author：luocj
+     * @createtime ：2018年1月2日 下午18:00:55
+     * @description mapReduce
+     * @param templateId
+     * @param fromObjIds
+     * @param startPeriodDate
+     * @param endPeriodDate
+     * @return
+     */
+  public MapReduceResults<MapReduceResult> mapReduce (Long templateId, List<Long> fromObjIds, Date startPeriodDate, Date endPeriodDate)
+  {
+      if(null==templateId || 0L==templateId) {
+          return null;
+      }
+
+      Criteria criteria = Criteria.where("templateId").is(templateId);
+      if(!CollectionUtils.isEmpty(fromObjIds)) {
+          criteria.and("fromObjId").in(fromObjIds);
+      }
+      if(null != startPeriodDate && null != endPeriodDate) {
+          criteria.and("periodDate").gte(startPeriodDate).andOperator(Criteria.where("periodDate").lte(endPeriodDate));
+//            criteria.andOperator(Criteria.where("periodDate").gte(startPeriodDate).andOperator(Criteria.where("periodDate").lte(endPeriodDate)));
+      }
+
+      Query query = new Query(criteria);
+      String mapFunction = "classpath:mapreduce/map.js";
+      String reduceFunction = "classpath:mapreduce/reduce.js";
+
+      return super.mapReduce(query, mapFunction, reduceFunction);
+  }
+
     /**
      * 
      * @author：luocj

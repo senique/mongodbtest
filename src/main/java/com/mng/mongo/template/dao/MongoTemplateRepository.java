@@ -1,6 +1,8 @@
 package com.mng.mongo.template.dao;
 
 import java.util.List;
+
+import com.mng.domain.ReportRecord;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -152,13 +155,8 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
      * @createtime ： 2017年12月5日 下午5:20:51
      * @description 按条件查询多条数据,带分页条件（分页从0开始）
      * @since version 初始于版本 v0.0.1 
-     * @param templateId
-     * @param fromObjId
-     * @param startPeriodDate
-     * @param endPeriodDate
-     * @param addremark
+     * @param query
      * @param pager
-     * @return
      * @throws Exception
      */
     public <T> PageResult<T> findListByCondition(Query query, Pager pager) throws Exception {
@@ -196,11 +194,32 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     {
         return (T) mongoTemplate.aggregate(aggregation, inputType, outputType);
     }
-    
-    public void testFnc()
-    {
+
+    /**
+     *
+     * @author：luocj
+     * @createtime ：2018年1月2日 下午18:00:55
+     * @description mapReduce
+     * @param query
+     * @param mapFunction
+     * @param reduceFunction
+     * @return
+     */
+    public <T> MapReduceResults<T> mapReduce(Query query, String mapFunction, String reduceFunction) {
+        return mongoTemplate.mapReduce(query, getCollectionName(this.getEntityClass().getSimpleName()), mapFunction, reduceFunction, this.getEntityClass());
+    }
+
+    private String getCollectionName(String simpleName) {
+        if (null == simpleName || simpleName.length() == 0){
+            return "";
+        }
+        return simpleName.toLowerCase().substring(0, 1)+simpleName.substring(1);
+    }
+
+
+//    public void testFnc()
+//    {
 //        mongoTemplate.aggregate(aggregation, outputType)
 //        mongoTemplate.group(inputCollectionName, groupBy, entityClass)
 //        mongoTemplate.mapReduce(inputCollectionName, mapFunction, reduceFunction, entityClass)
-    }
 }
