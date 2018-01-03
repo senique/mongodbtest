@@ -203,10 +203,11 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
      * @param query
      * @param mapFunction
      * @param reduceFunction
+     * @param outputEntityClass
      * @return
      */
-    public <T> MapReduceResults<T> mapReduce(Query query, String mapFunction, String reduceFunction) {
-        return mongoTemplate.mapReduce(query, getCollectionName(this.getEntityClass().getSimpleName()), mapFunction, reduceFunction, this.getEntityClass());
+    public <T> MapReduceResults<T> mapReduce(Query query, String mapFunction, String reduceFunction, Class<T> outputEntityClass) {
+        return mongoTemplate.mapReduce(query, getCollectionName(this.getEntityClass().getSimpleName()), mapFunction, reduceFunction, outputEntityClass);
     }
 
     private String getCollectionName(String simpleName) {

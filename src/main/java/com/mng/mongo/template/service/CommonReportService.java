@@ -294,7 +294,7 @@ public class CommonReportService extends CommonReportRepository
       String mapFunction = "classpath:mapreduce/map.js";
       String reduceFunction = "classpath:mapreduce/reduce.js";
 
-      return super.mapReduce(query, mapFunction, reduceFunction);
+      return super.mapReduce(query, mapFunction, reduceFunction, MapReduceResult.class);
   }
 
     /**
