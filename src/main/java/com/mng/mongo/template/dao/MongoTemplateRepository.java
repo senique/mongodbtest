@@ -3,13 +3,19 @@ package com.mng.mongo.template.dao;
 import java.util.List;
 
 import com.mng.domain.ReportRecord;
+import com.mng.utils.sequence.SaveMongoEventListener;
+import com.mongodb.Mongo;
+import com.mongodb.ServerAddress;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -27,11 +33,31 @@ public abstract class MongoTemplateRepository extends AbstractBaseRepository {
     private MongoTemplate mongoTemplate;
     
     protected abstract <T> Class<T> getEntityClass();
-    
+
+    @Autowired
+    private AbstractApplicationContext context;
+    @Autowired
+    private AutowireCapableBeanFactory beanFactory;
+    @Autowired
+    /**
+     * 注册Listener 通过注解@GeneratedValue指定主键ID值 （大数据量情况性能相对会下降）
+     * [ApplicationListenerDetector] Inner bean 'com.viomi.common.utils.sequence.SaveMongoEventListener'
+     * implements ApplicationListener interface but is not reachable for event multicasting by its containing
+     * ApplicationContext because it does not have singleton scope. Only top-level listener beans are allowed to be of non-singleton scope.
+     */
+    public void registerListeners() {
+        SaveMongoEventListener firstListener = beanFactory.createBean(SaveMongoEventListener.class);
+        context.addApplicationListener(firstListener);
+    }
+
+
     @Autowired
     @Qualifier("mongoTemplate")
 //    @Override
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
+//        mongoTemplate = new MongoTemplate(new Mongo("localhost"),"testdb");
+//        mongoTemplate = new MongoTemplate(new SimpleMongoDbFactory(new Mongo(), "testdb"));
+//        mongoTemplate.setApplicationContext(context);
         this.mongoTemplate = mongoTemplate;
     }
     

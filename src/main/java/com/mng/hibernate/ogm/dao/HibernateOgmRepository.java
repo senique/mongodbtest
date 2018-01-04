@@ -62,7 +62,9 @@ public abstract class HibernateOgmRepository extends AbstractBaseRepository
     
     protected OgmSession getOgmSession()
     {
-        if(this.ogmSession == null) this.ogmSession = getOgmSessionFactory(null).openSession();//null to class TODO
+        if(this.ogmSession == null) {
+            this.ogmSession = getOgmSessionFactory(null).openSession();//null to class TODO
+        }
         return this.ogmSession;
     }
     

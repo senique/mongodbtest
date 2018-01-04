@@ -23,6 +23,7 @@ public class SaveMongoEventListener extends AbstractMongoEventListener<Object>
         final Object source = event.getSource();
         if(source != null) {
           ReflectionUtils.doWithFields(source.getClass(), new ReflectionUtils.FieldCallback() {
+              @Override
               public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
                   ReflectionUtils.makeAccessible(field);
                   if (field.isAnnotationPresent(GeneratedValue.class)) {

@@ -8,10 +8,14 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class DataItem {
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private Long count;
     private Date createdTime;
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     //    @Id
     private String name;
@@ -36,6 +40,14 @@ public class DataItem {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

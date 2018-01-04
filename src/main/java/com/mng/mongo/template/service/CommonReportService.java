@@ -308,6 +308,7 @@ public class CommonReportService extends CommonReportRepository
      * @param filedValue
      * @throws Exception
      */
+    @Override
     public void increaseValueToFiled(Object id, String filedName, Long filedValue) throws Exception
     {
         super.increaseValueToFiled(id, filedName, filedValue);
@@ -325,6 +326,7 @@ public class CommonReportService extends CommonReportRepository
      * @param filedValue
      * @throws Exception
      */
+    @Override
     public void addFiled(Object id, String filedName, String filedValue) throws Exception
     {
         super.addFiled(id, filedName, filedValue);
@@ -340,6 +342,7 @@ public class CommonReportService extends CommonReportRepository
      * @param filedName
      * @throws Exception
      */
+    @Override
     public void deleteFiled(Object id, String filedName) throws Exception
     {
         super.deleteFiled(id, filedName);
@@ -355,6 +358,7 @@ public class CommonReportService extends CommonReportRepository
      * @param newFiledName
      * @throws Exception
      */
+    @Override
     public void renameFiled(Object id, String filedName, String newFiledName) throws Exception
     {
         super.renameFiled(id, filedName, newFiledName);
