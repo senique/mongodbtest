@@ -15,7 +15,7 @@ MongoTemplate mongoTemplate = new MongoTemplate(new SimpleMongoDbFactory(new Mon
 For JPA: use EntityManager
 Without JPA: use OgmSession
 
-**5.Morphia (Apache许可/Google Code项目,提供一系列围绕 Mongo Java驱动程序的注释和包装程序)** http://mongodb.github.io/morphia/   
+**5.Morphia (Apache许可/Google Code项目,提供一系列围绕 Mongo Java驱动程序的注解和包装程序)** http://mongodb.github.io/morphia/   
 @Entity+@Id  
 @Embedded, @Reference, (@Property), ...  
 Morphia morphia = new Morphia();  
