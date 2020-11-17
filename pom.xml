@@ -32,7 +32,7 @@
 		<dependency>
 		    <groupId>commons-beanutils</groupId>
 		    <artifactId>commons-beanutils</artifactId>
-		    <version>1.9.3</version>
+		    <version>1.9.4</version>
 		</dependency>
 
         <!-- MongoTemplate: https://docs.spring.io/spring-data/mongodb/docs/current/api/org/springframework/data/mongodb/core/MongoTemplate.html-->
